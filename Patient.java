@@ -2,44 +2,29 @@ package health_care_final_project;
 
 import java.util.Date;
 
-public class Patient {
+public class Patient extends Person{
 	
-	private String firstName;
-	private String lastName;
 	private Date dateOfVisit;
 	private String complaint;
 
-	//Default constructor
+	//construct a default Patient object
 	public Patient() {
-	
 	}
 
-	//constructor with arguments 
+	//construct a Patient object with the specified firstName, lastName, dateOfVisit, and complaint
 	public Patient(String firstName, String lastName, Date dateOfVisit, String complaint) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
+		
+		//inherited methods from Person class
+		setFirstName(firstName);
+		setLastName(lastName);
+		
+		//super keyword can be used to invoke the superclass constructor with the specified arguments
+		//super(firstName, lastName);
 		this.dateOfVisit = dateOfVisit;
 		this.complaint = complaint;
 	}
 
 	//setters and getters
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public Date getDateOfVisit() {
 		return dateOfVisit;
 	}

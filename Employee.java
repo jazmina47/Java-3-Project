@@ -1,45 +1,31 @@
 package health_care_final_project;
 
-public class Employee {
+public class Employee extends Person{
 	
-	private String firstName;
-	private String lastName;
+	//data fields 
 	private String title;
 	private String specialty;
 	private double salary;
 	
-	//default constructor 
-	public Employee() {	
-		
+	//construct a default Employee object
+	public Employee() {		
 	}
 
-	//constructor with arguments 
+	//construct an Employee object with the specified firstName, lastName, title, specialty, and salary
 	public Employee(String firstName, String lastName, String title, String specialty, double salary) {
 		
-		this.firstName = firstName;
-		this.lastName = lastName;
+		//inherited methods from Person class
+		setFirstName(firstName);
+		setLastName(lastName);
+		
+		//super keyword can be used to invoke the superclass constructor with the specified arguments
+		//super(firstName, lastName);
 		this.title = title;
 		this.specialty = specialty;
 		this.salary = salary;
 	}
 
 	//setters and getters
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -65,4 +51,3 @@ public class Employee {
 	}
 	
 }
-

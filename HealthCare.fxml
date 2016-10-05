@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.HealthController">
+   <children>
+      <Pane layoutX="1.0" layoutY="-7.0" prefHeight="850.0" prefWidth="1050.0">
+         <children>
+            <Label layoutX="76.0" layoutY="37.0" prefHeight="40.0" prefWidth="301.0" text="Health Care Clinic" textFill="#eb0c0c">
+               <font>
+                  <Font name="Times New Roman Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="68.0" layoutY="94.0" prefHeight="58.0" prefWidth="301.0" text="Please enter the paitent details below">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="fNameText" layoutX="95.0" layoutY="177.0" />
+            <TextField fx:id="complaint" layoutX="131.0" layoutY="655.0" prefHeight="91.0" prefWidth="225.0" />
+            <TextField fx:id="lNameText" layoutX="95.0" layoutY="230.0" />
+            <Label fx:id="fNameLabel" layoutX="14.0" layoutY="177.0" prefHeight="25.0" prefWidth="81.0" text="First Name">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="compainLabel" layoutX="28.0" layoutY="688.0" prefHeight="25.0" prefWidth="81.0" text="Complaint">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font></Label>
+            <Label fx:id="lNameLabel" layoutX="14.0" layoutY="230.0" prefHeight="25.0" prefWidth="81.0" text="Last Name">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font></Label>
+            <Label fx:id="testClock" alignment="CENTER" layoutX="711.0" layoutY="55.0" prefHeight="68.0" prefWidth="234.0" text="clock">
+               <font>
+                  <Font name="DS-Digital Bold" size="42.0" />
+               </font></Label>
+            <Button fx:id="butto" layoutX="758.0" layoutY="763.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="149.0" text="Save Information">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Button>
+            <Button fx:id="quit" layoutX="937.0" layoutY="768.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="40.0" prefWidth="74.0" text="Close">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font></Button>
+            <Label fx:id="cError" layoutX="42.0" layoutY="751.0" prefHeight="25.0" prefWidth="314.0" textFill="#f82d2d">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="lError" layoutX="260.0" layoutY="230.0" prefHeight="25.0" prefWidth="234.0" />
+            <Label fx:id="fError" layoutX="260.0" layoutY="177.0" prefHeight="25.0" prefWidth="225.0" textFill="#e41414">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="saveResult" layoutX="389.0" layoutY="633.0" prefHeight="111.0" prefWidth="212.0" />
+            <Button fx:id="find" layoutX="582.0" layoutY="763.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="135.0" text="Find Patient">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Button>
+            <Label fx:id="lNameLabel1" layoutX="11.0" layoutY="282.0" prefHeight="25.0" prefWidth="81.0" text="SS#">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel2" layoutX="11.0" layoutY="329.0" prefHeight="25.0" prefWidth="81.0" text="Address">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel3" layoutX="14.0" layoutY="425.0" prefHeight="25.0" prefWidth="81.0" text="Zip">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel4" layoutX="11.0" layoutY="378.0" prefHeight="25.0" prefWidth="81.0" text="City">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel5" layoutX="14.0" layoutY="469.0" prefHeight="25.0" prefWidth="81.0" text="County">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel6" layoutX="494.0" layoutY="282.0" prefHeight="25.0" prefWidth="135.0" text="Emergeny Contact">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel7" layoutX="494.0" layoutY="228.0" prefHeight="25.0" prefWidth="149.0" text="Immunization Status">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel8" layoutX="494.0" layoutY="177.0" prefHeight="25.0" prefWidth="81.0" text="Gender:">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel9" layoutX="11.0" layoutY="559.0" prefHeight="25.0" prefWidth="81.0" text="DOB">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel10" layoutX="11.0" layoutY="514.0" prefHeight="25.0" prefWidth="81.0" text="Phone ">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel63" layoutX="494.0" layoutY="329.0" prefHeight="25.0" prefWidth="135.0" text="Relationship">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lNameLabel64" layoutX="494.0" layoutY="378.0" prefHeight="25.0" prefWidth="212.0" text="Emergency Contanct Number">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ssText" layoutX="94.0" layoutY="282.0" />
+            <TextField fx:id="addText" layoutX="94.0" layoutY="333.0" />
+            <TextField fx:id="cityText" layoutX="95.0" layoutY="378.0" />
+            <TextField fx:id="zipText" layoutX="94.0" layoutY="426.0" />
+            <TextField fx:id="countyText" layoutX="95.0" layoutY="476.0" />
+            <TextField fx:id="phoneText" layoutX="94.0" layoutY="514.0" />
+            <TextField fx:id="immuText" layoutX="649.0" layoutY="228.0" />
+            <TextField fx:id="emergencyText" layoutX="639.0" layoutY="282.0" />
+            <TextField fx:id="relText" layoutX="594.0" layoutY="333.0" />
+            <TextField fx:id="emeConText" layoutX="713.0" layoutY="378.0" />
+            <TextField fx:id="medicareText" layoutX="594.0" layoutY="464.0" />
+            <DatePicker fx:id="dob" layoutX="81.0" layoutY="559.0" />
+            <Label fx:id="lError" layoutX="260.0" layoutY="230.0" prefHeight="25.0" prefWidth="225.0" textFill="#f51111">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="careError" layoutX="765.0" layoutY="442.0" prefHeight="68.0" prefWidth="266.0" text="" textFill="#ff1c1c">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="ecnError" layoutX="878.0" layoutY="357.0" prefHeight="68.0" prefWidth="167.0" text="" textFill="#eb2020">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="relError" layoutX="765.0" layoutY="333.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#e82222">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="emeError" layoutX="811.0" layoutY="282.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#ee2828">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="genError" layoutX="749.0" layoutY="177.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#f82f2f">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="immError" layoutX="811.0" layoutY="228.0" prefHeight="50.0" prefWidth="225.0" text="" textFill="#ff3333">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="ssError" layoutX="270.0" layoutY="282.0" prefHeight="25.0" prefWidth="225.0" textFill="#fc0e0e">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="addError" layoutX="270.0" layoutY="333.0" prefHeight="25.0" prefWidth="225.0" textFill="#bc1111">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="cityError" layoutX="260.0" layoutY="378.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#e41515">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="zipError" layoutX="260.0" layoutY="426.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#d71919">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="countyError" layoutX="260.0" layoutY="476.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#da2525">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="phoneError" layoutX="257.0" layoutY="515.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#cd1d1d">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Label fx:id="dobError" layoutX="268.0" layoutY="559.0" prefHeight="25.0" prefWidth="225.0" text="" textFill="#eb0c0c">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <DatePicker fx:id="appointment" layoutX="647.0" layoutY="590.0" prefHeight="25.0" prefWidth="281.0" />
+            <Label fx:id="lNameLabel11" layoutX="494.0" layoutY="590.0" prefHeight="25.0" prefWidth="135.0" text="Appointment Date">
+               <font>
+                  <Font name="Times New Roman Bold" size="16.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="genMale" layoutX="564.0" layoutY="181.0" mnemonicParsing="false" onAction="#Intialize" text="Male">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="genFemale" layoutX="650.0" layoutY="181.0" mnemonicParsing="false" onAction="#Intialize" text="Female">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="inAid" layoutX="491.0" layoutY="430.0" mnemonicParsing="false" onAction="#Intialize" text="Medicaid">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="inCare" layoutX="491.0" layoutY="468.0" mnemonicParsing="false" onAction="#Intialize" text="Medicare">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="inPriv" layoutX="491.0" layoutY="505.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="20.0" prefWidth="149.0" text="Private Insurance">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
+            <Label fx:id="appError" layoutX="647.0" layoutY="625.0" prefHeight="25.0" prefWidth="362.0" textFill="#dd1616">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

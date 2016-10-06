@@ -226,6 +226,11 @@
                   <Font name="Times New Roman Bold" size="15.0" />
                </font>
             </Label>
+            <RadioButton fx:id="genOther" layoutX="744.0" layoutY="178.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="24.0" prefWidth="87.0" text="Other">
+               <font>
+                  <Font name="Times New Roman Bold" size="15.0" />
+               </font>
+            </RadioButton>
          </children>
       </Pane>
    </children>

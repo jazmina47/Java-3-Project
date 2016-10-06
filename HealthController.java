@@ -174,6 +174,8 @@ public class HealthController {
 	@FXML
 	RadioButton genFemale;
 	@FXML
+	RadioButton genOther;
+	@FXML
 	RadioButton inAid;
 	@FXML
 	RadioButton inCare;
@@ -411,7 +413,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			
-			if(!(genMale.isSelected()||genFemale.isSelected())){
+			if(!(genMale.isSelected()||genFemale.isSelected()|| genOther.isSelected())) {
 				genError.setText("Please pick a gender.");
 				quitClick =0;
 				saveCheck = false;

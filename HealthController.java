@@ -6,37 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Date;
-import javafx.animation.*;
-import javafx.event.*;
-import javafx.util.Duration;
-
-import java.awt.Dimension;
-import java.awt.ScrollPane;
-import java.awt.event.*;
-
-import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -80,16 +58,6 @@ public class HealthController {
 	@FXML
 	Label cError;
 	@FXML
-	Label fNameConfirmation;
-	@FXML
-	Label lNameConfirmation;
-	@FXML
-	Label ssConfirmation;
-	@FXML
-	Label addConfirmation;
-	@FXML
-	Label confirmOrError;
-	@FXML
 	Label ssError;
 	@FXML
 	Label addError;
@@ -126,17 +94,11 @@ public class HealthController {
 	@FXML	
 	Button quit;
 	@FXML
-	Button confirmButton;
-	@FXML
 	Button paymentButton;
 	@FXML
 	Button findSpecialist;
 	@FXML
 	Button clear;
-	@FXML
-	Button clearFinder;
-	@FXML	
-	Button quit2;
 	@FXML	
 	Button find;
 	@FXML
@@ -147,8 +109,6 @@ public class HealthController {
 	TextField complaint;
 	@FXML
 	TextField diagonsis;
-	@FXML
-	TextField iDFinder;
 	@FXML
 	TextField ssText; 
 	@FXML
@@ -223,11 +183,6 @@ public class HealthController {
 	//quit the application.
 	
 	int quitClick;
-	int patientConfirm = 0;
-	
-	AnchorPane anchor2;
-	Stage stagePatientFinder;
-	
 	
 	
 	/*these are the HashMaps for storing patient information
@@ -280,7 +235,6 @@ public class HealthController {
 		
 		todayDate = format.format(date);
 		
-		Stage stagePatientFinder = new Stage();
 		
 
 		/* this is for making sure the save to the file is correct*/
@@ -311,6 +265,7 @@ public class HealthController {
 					if(pList.isEmpty()){
 						
 					pList = (HashMap) file2input.readObject();
+					
 					}
 				
 				}
@@ -485,7 +440,6 @@ public class HealthController {
 				quitClick =0;
 				saveCheck = false;
 			}
-			
 			if(!(genMale.isSelected()||genFemale.isSelected()||otherGen.isSelected())){
 				genError.setText("Please pick a gender.");
 				quitClick =0;
@@ -624,7 +578,7 @@ public class HealthController {
 					
 					pList.put(id, new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
 							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +"\n" + insuranceNameString + "\n" +insuranceNumberString),
-							appointString,comp));
+							appointString,comp, Integer.toString(id)));
 					
 					
 					saveResult.setTextFill(Color.BLACK);
@@ -663,23 +617,90 @@ public class HealthController {
 			
 			
 			
-			FXMLLoader loadFinder = new FXMLLoader();
-			loadFinder.setLocation(HealthMainClass.class.getResource("PatientFinder.fxml"));
+			id = PatientFinderMain.startAgain();
+			
+			System.out.println("Id retrieved: " + id);
+			
+			
 			try{
-				anchor2 = (AnchorPane) loadFinder.load();
-			}
-			catch(IOException ex1){
+				FileInputStream fileinput = new FileInputStream("patient.txt");
+				ObjectInputStream file2input= new ObjectInputStream(fileinput);
+				try{
+					if(pList.isEmpty()){
+						
+					pList = (HashMap) file2input.readObject();
+					
+					}
 				
-				ex1.printStackTrace();
+				}
+				catch(EOFException ex1){
+					
+				}
+
 				
+				file2input.close();
 			}
-			stagePatientFinder.setTitle("HealthCare Finder Demo");
-			Scene sceneFinder = new Scene(anchor2);
-			stagePatientFinder.setScene(sceneFinder);
-			stagePatientFinder.show();
+			catch(Exception ex){
+				System.out.println("Gotta make new file!");
+			}
 			
+		try{
 			
+			fNameText.setText(pList.get(id).getfName());
+			lNameText.setText(pList.get(id).getlName());
+			ssText.setText(pList.get(id).getSsn());
+			addText.setText(pList.get(id).getAddress());
+			cityText.setText(pList.get(id).getCity());
+			zipText.setText(pList.get(id).getZipCode());
+			countyText.setText(pList.get(id).getCounty());
+			phoneText.setText(pList.get(id).getPhone());
 			
+			//Convert the date of birth into LocalDate to store in the DatePicker
+			dob.setValue(LocalDate.parse(pList.get(id).getDateOfBirth()));
+			//It checks of the string says Male or Female and selects the correct gender.
+			if(pList.get(id).getGender().equals("Male")){
+			genMale.setSelected(true);
+			}else if(pList.get(id).getGender().equals("Female")){
+			genFemale.setSelected(true);
+			}else{
+			otherGen.setSelected(true);
+			}
+			//I do the same thing I did for gender for immunization status
+			if(pList.get(id).getImmunizationStatus().equals("Up To Date")){
+			upToDate.setSelected(true);
+			}else{
+			needUpdate.setSelected(true);
+			}
+			emeConText.setText(pList.get(id).getEmergencyContactNumber());
+			relText.setText(pList.get(id).getRelationship());
+			emergencyText.setText(pList.get(id).getEmergencyContact());
+			
+			//I split the String for the insurance information into multiple Strings separated by "\n"
+			insuranceSplit = pList.get(id).insurance.split("\n");
+			//I check which is selected. Once again it is the same as the gender checker above.
+			if(insuranceSplit[0].equals("Medicaid")){
+			inAid.setSelected(true);
+			}else if(insuranceSplit[0].equals("Medicare")){
+			inCare.setSelected(true);
+			}else{
+			inPriv.setSelected(true);
+			}
+			insuName.setText(insuranceSplit[1]);
+			medicareText.setText(insuranceSplit[2]);
+			appointment.setValue(null);
+			
+			/*I delete the elements inside the insuranceSplit array in order
+			 * to make sure the array is empty for the next patient retrieval.
+			 */
+			insuranceSplit = null;
+			
+			//I set the isNotRetrieved to false because this data was retrieved from a file
+			isNotRetrieved = false;
+		
+			}
+		catch(NullPointerException nullex){
+			System.out.println("Nope!");
+		}
 			
 			
 		});
@@ -739,138 +760,7 @@ public class HealthController {
 		
 	}
 		
-		@FXML 
-		public void Initialize2(){
-			
-			/*This button is for  confirming if the information gathered is correct or not. 
-			 * If it is correct then the data will be inserted into another window when you 
-			 * hit the confirm button again
-			 */
-			confirmOrError.setWrapText(true);
 
-			
-			quit2.setOnAction(e->{
-				patientConfirm = 0;
-				quitClick++;
-				confirmOrError.setFont(Font.font(null,FontWeight.BOLD, 18));
-				confirmOrError.setTextFill(Color.RED);
-				
-				confirmOrError.setText("All unsaved data will be lost! Click " + "\"Close\"" + " again to proceed.");
-				
-				if (quitClick == 2){
-				System.exit(0);
-				}
-			});
-			
-			clearFinder.setOnAction(e->{
-				fNameConfirmation.setText("First Name");
-				lNameConfirmation.setText("Last Name");
-				ssConfirmation.setText("999-99-9999");
-				addConfirmation.setText("Address");
-				confirmOrError.setTextFill(Color.BLACK);
-				confirmOrError.setText("");
-				patientConfirm = 0;
-				quitClick =0;
-				iDFinder.clear();
-				
-			});
-			
-			
-			
-			confirmButton.setOnAction(e->{
-				
-				confirmOrError.setTextFill(Color.BLACK);
-				quitClick = 0;
-				confirmOrError.setText("");
-				
-				try{
-					FileInputStream fileinput = new FileInputStream("patient.txt");
-					ObjectInputStream file2input= new ObjectInputStream(fileinput);
-					try{
-						pList.clear();
-							
-						pList = (HashMap) file2input.readObject();
-						
-					
-					}
-					catch(EOFException ex1){
-						
-					}
-
-					
-					file2input.close();
-				}
-				catch(Exception ex){
-					System.out.println("File is here!!");
-				}
-			
-				/*This will check if the patient confirm is only one
-				 * this makes sure that you can see the information before 
-				 * the program retrieves the rest and displays
-				 */
-				
-				if(patientConfirm == 0){
-					fNameConfirmation.setText("First Name");
-					lNameConfirmation.setText("Last Name");
-					ssConfirmation.setText("999-99-9999");
-					addConfirmation.setText("Address");
-					
-					/*This try catch is for making sure the id is an integer
-					 * if the person enters something that is not an integer the program will
-					 * throw an NumberFormatException, which will check if the textfield has 
-					 * anything inside it or if the person left it empty ("") <- empty.
-					 * 
-					 */
-					try{
-					id = Integer.parseInt(iDFinder.getText().toString());
-					
-					if(pList.containsKey(id)){
-						
-						fNameConfirmation.setText(pList.get(id).getfName());
-						lNameConfirmation.setText(pList.get(id).getlName());
-						ssConfirmation.setText(pList.get(id).getSsn());
-						addConfirmation.setText(pList.get(id).getAddress());
-						confirmOrError.setText("Is this your information? (hit enter to confirm)");
-						patientConfirm++;
-					}
-					else{
-						confirmOrError.setText("Patient ID not found.");
-						patientConfirm =0;
-					}
-
-					
-					}
-					catch(NumberFormatException exe){
-						if (iDFinder.getText().toString().trim().equals("")){
-							confirmOrError.setText("Please enter the patient id number.");
-						}
-						else{
-							confirmOrError.setText("Please only enter patient id number.");
-						}
-						
-					}
-					
-				
-
-				}
-				
-				else if(patientConfirm ==1){
-					confirmOrError.setTextFill(Color.BLACK);
-					confirmOrError.setText("Please Go back to the HealthCare Clinic Main Screen (do not hit close)");
-					
-					
-					
-				}
-				
-				
-				
-				
-			});
-			
-			
-			
-		}
-		
 		/* This check is for when all I want
 		 * is letters and no numbers or symbols.
 		 * Mostly used for names.

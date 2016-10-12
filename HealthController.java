@@ -858,56 +858,7 @@ public class HealthController {
 					confirmOrError.setTextFill(Color.BLACK);
 					confirmOrError.setText("Please Go back to the HealthCare Clinic Main Screen (do not hit close)");
 					
-					fNameText.setText(pList.get(id).getfName());
-					lNameText.setText(pList.get(id).getlName());
-					ssText.setText(pList.get(id).getSsn());
-					addText.setText(pList.get(id).getAddress());
-					cityText.setText(pList.get(id).getCity());
-					zipText.setText(pList.get(id).getZipCode());
-					phoneText.setText(pList.get(id).getPhone());
 					
-					//Convert the date of birth into LocalDate to store in the DatePicker
-					dobDate.parse(pList.get(id).getDateOfBirth());		
-					dob.setValue(dobDate);
-					//It checks of the string says Male or Female and selects the correct gender.
-					if(pList.get(id).getGender().equals("Male")){
-					genMale.setSelected(true);
-					}else if(pList.get(id).getGender().equals("Female")){
-					genFemale.setSelected(true);
-					}else{
-					otherGen.setSelected(true);
-					}
-					//I do the same thing I did for gender for immunization status
-					if(pList.get(id).getImmunizationStatus().equals("Up To Date")){
-					upToDate.setSelected(true);
-					}else{
-					needUpdate.setSelected(true);
-					}
-					emeConText.setText(pList.get(id).getEmergencyContactNumber());
-					relText.setText(pList.get(id).getRelationship());
-					emergencyText.setText(pList.get(id).getEmergencyContact());
-					
-					//I split the String for the insurance information into multiple Strings separated by "\n"
-					insuranceSplit = pList.get(id).insurance.split("\n");
-					//I check which is selected. Once again it is the same as the gender checker above.
-					if(insuranceSplit[0].equals("Medicaid")){
-					inAid.setSelected(true);
-					}else if(insuranceSplit[0].equals("Medicare")){
-					inCare.setSelected(true);
-					}else{
-					inPriv.setSelected(true);
-					}
-					insuName.setText(insuranceSplit[1]);
-					medicareText.setText(insuranceSplit[2]);
-					appointment.setValue(null);
-					
-					/*I delete the elements inside the insuranceSplit array in order
-					 * to make sure the array is empty for the next patient retrieval.
-					 */
-					insuranceSplit = null;
-					
-					//I set the isNotRetrieved to false because this data was retrieved from a file
-					isNotRetrieved = false;
 					
 				}
 				

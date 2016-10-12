@@ -1,16 +1,23 @@
 package healthcareLook;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Date;
 import javafx.animation.*;
 import javafx.event.*;
@@ -42,24 +49,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 
-/*The purpose of this program is to save and load paitent data
+/*The purpose of this program is to save and load patient data
  * this will use FileOutputStream and FileInputStream to bring and amend data.
  * I use SceneBuilder for the entire GUI.
  * 
  */
 
-/*ADD PLACE FOR ID NUMBER
- * SOMETHING FOR EMPLOYEES TO LOG IN
- * SOMETHING FOR SOCIAL SECURITY
- * SOMETHING FOR PHONE NUMBER
- * ID BADGE NUMBER
- * ADDRESS
- * APPOINTMENT
+/*TEST SAVING AND LOADING OF DATA!
+ *
  */
 
 public class HealthController {
 	
-	//I create variables for labels, buttons, textfields, and strings
+	//I create variables for labels, buttons, textfields, RadioButtons, and strings
 	
 	@FXML
 	Label fNameLabel;
@@ -129,6 +131,10 @@ public class HealthController {
 	Button paymentButton;
 	@FXML
 	Button findSpecialist;
+	@FXML
+	Button clear;
+	@FXML
+	Button clearFinder;
 	@FXML	
 	Button quit2;
 	@FXML	
@@ -170,25 +176,38 @@ public class HealthController {
 	@FXML
 	TextField priInsuText;
 	@FXML
+	TextField insuName;
+	@FXML
 	RadioButton genMale;
 	@FXML
 	RadioButton genFemale;
-	@FXML
-	RadioButton genOther;
 	@FXML
 	RadioButton inAid;
 	@FXML
 	RadioButton inCare;
 	@FXML
+	RadioButton upToDate;
+	@FXML
+	RadioButton needUpdate;
+	@FXML
+	RadioButton otherGen;
+	@FXML
 	RadioButton inPriv;
+	RadioButton genderTransfer;
+	RadioButton insuranceTransfer;
+	RadioButton immuTransfer;
 	@FXML
 	DatePicker dob;
 	@FXML
 	DatePicker appointment;
+	//ToggleGroup for the RadioButtons
 	ToggleGroup gender = new ToggleGroup();
 	ToggleGroup insurance = new ToggleGroup();
+	ToggleGroup immuStatus = new ToggleGroup();
+	
+	//a Label for the clock
 	@FXML
-	Label testClock = new RealClock();
+	Label testClock;
 	
 	//If there are no errors saveCheck will remain true and the data will be saved. but if there is one problem
 	//The data will change saveCheck to false.
@@ -196,40 +215,68 @@ public class HealthController {
 	boolean saveCheck = true;
 	String errorDetails;
 	
+	//This is to check if the data was retrieved from a file or not, so you do not give the person a new ID.
+	//This will also override the past data stored.
+	boolean isNotRetrieved = true;
+	
+	//This is for the quit button, so you can get a warning and a confirm message should you wish to
+	//quit the application.
+	
 	int quitClick;
+	int patientConfirm = 0;
 	
 	AnchorPane anchor2;
 	Stage stagePatientFinder;
 	
 	
-	// This is for java swing. I use java swing for the other windows I open from the Main window.
-	// The main window is made from SceneBuilder.
+	
+	/*these are the HashMaps for storing patient information
+	 * and for storing employee information.
+	 */
 	
 	
 	HashMap<Integer,Patient> pList = new HashMap<Integer,Patient>();
 	HashMap<Integer,Employee> sList = new HashMap<Integer,Employee>();
 	
-	String fName,lName,comp,diag,patientData, addressString, ssString;
+	//The multiple strings i will need to store inputs for patient information.
 	
+	String fName,lName,comp,diag,patientData, addressString, ssString, cityString, zipString, countyString,
+	phoneString, dobString, genderString, immuString, emcString, relationString,ecnString, insuranceButtonString,insuranceNameString, insuranceNumberString,
+	appointString;
+	
+	//id and idDouble is to generate a random id and make it integer
 	int id;
+	Double idDouble;
+	//This is for setting the date to todays date.
 	Date date = new Date();
 	Calendar today = new GregorianCalendar();
-	DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+	LocalDate appointmentDate = null;
+	//This will help convert the stored date of birth from String to LocalDate. 
+	LocalDate dobDate = null;
 	String todayDate;
 	
+	/*This is for splitting the insurance information back into 3 details,
+	 * the carrier, the name, and the insurance number.
+	 */
+	
+	String[] insuranceSplit;
 
 
 	@FXML
 	public void Intialize(){
+
 		
 		genMale.setToggleGroup(gender);
 		genFemale.setToggleGroup(gender);
 		inPriv.setToggleGroup(insurance);
 		inAid.setToggleGroup(insurance);
 		inCare.setToggleGroup(insurance);
-
+		otherGen.setToggleGroup(gender);
+		needUpdate.setToggleGroup(immuStatus);
+		upToDate.setToggleGroup(immuStatus);
 		
-		
+		testClock = new RealClock();
 		
 		todayDate = format.format(date);
 		
@@ -255,7 +302,33 @@ public class HealthController {
 		 * and you will see nothing.
 		 */
 		butto.setOnAction(e ->{
+
+
+			try{
+				FileInputStream fileinput = new FileInputStream("patient.txt");
+				ObjectInputStream file2input= new ObjectInputStream(fileinput);
+				try{
+					if(pList.isEmpty()){
+						
+					pList = (HashMap) file2input.readObject();
+					}
+				
+				}
+				catch(EOFException ex1){
+					
+				}
+
+				
+				file2input.close();
+			}
+			catch(Exception ex){
+				System.out.println("Gotta make new file!");
+			}
 			
+			/*This code allows for the error test to be "reset" each time
+			 * you click the save information button.
+			 */
+		
 			fError.setText("");
 			lError.setText("");
 			cError.setText("");
@@ -285,7 +358,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-				else if(errorCheck(fNameText.getText().toString())){
+				else if(getNonLetterCount(fNameText.getText().trim().toString())){
 						fError.setText("No numbers or symbols.");
 						quitClick =0;
 						saveCheck = false;
@@ -299,7 +372,7 @@ public class HealthController {
 					saveCheck = false;
 					
 				}
-				else if(errorCheck(lNameText.getText().toString())){
+				else if(getNonLetterCount(lNameText.getText().toString())){
 								lError.setText("No numbers or symbols.");
 								quitClick =0;
 								saveCheck = false;
@@ -311,15 +384,15 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-				else if(errorCheck2(ssText.getText().trim().toString())){
+				else if(getSymbolCount(ssText.getText().trim().toString())){
 						ssError.setText("No symbols.");
 						quitClick =0;
 						saveCheck = false;
 				}
 			
-				else if(errorCheck3(ssText.getText().trim().toString())){
+				else if(ssnErrorCheck(ssText.getText().trim().toString())){
 					if (ssText.getText().trim().toString().length() != 9){
-						ssError.setText("Must be 9 characters long.");
+						ssError.setText("Must be 9 numbers(only) long.");
 						quitClick =0;
 						saveCheck = false;
 					}
@@ -335,7 +408,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-				else if(errorCheck2(addText.getText().trim().toString())){
+				else if(getAddressCount(addText.getText().trim().toString())){
 						addError.setText("No symbols.");
 						quitClick =0;
 						saveCheck = false;
@@ -347,7 +420,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-			else if(errorCheck(cityText.getText().toString())){
+			else if(getNonLetterCount(cityText.getText().toString())){
 							cityError.setText("No numbers or symbols.");
 							quitClick =0;
 							saveCheck = false;
@@ -359,7 +432,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-			else if(errorCheck2(zipText.getText().toString())){
+			else if(getSymbolCount(zipText.getText().toString())){
 							zipError.setText("No symbols.");
 							quitClick =0;
 							saveCheck = false;
@@ -371,7 +444,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-			else if(errorCheck(countyText.getText().toString())){
+			else if(getNonLetterCount(countyText.getText().toString())){
 							countyError.setText("No numbers or symbols.");
 							quitClick =0;
 							saveCheck = false;
@@ -383,15 +456,15 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-				else if(errorCheck2(phoneText.getText().trim().toString())){
+				else if(getSymbolCount(phoneText.getText().trim().toString())){
 						phoneError.setText("No symbols.");
 						quitClick =0;
 						saveCheck = false;
 				}
 			
-				else if(errorCheck4(phoneText.getText().trim().toString())){
+				else if(phoneErrorCheck(phoneText.getText().trim().toString())){
 					if (phoneText.getText().trim().toString().length() != 10){
-						phoneError.setText("Must be 10 characters long.");
+						phoneError.setText("Must be 10 numbers(only) long.");
 						quitClick =0;
 						saveCheck = false;
 					}
@@ -413,31 +486,25 @@ public class HealthController {
 				saveCheck = false;
 			}
 			
-			if(!(genMale.isSelected()||genFemale.isSelected()|| genOther.isSelected())) {
+			if(!(genMale.isSelected()||genFemale.isSelected()||otherGen.isSelected())){
 				genError.setText("Please pick a gender.");
 				quitClick =0;
 				saveCheck = false;
 			}
+		
 			
-			
-			if(immuText.getText().trim().equals("")){
-					immError.setText("Please fill the field.");
-					quitClick =0;
-					saveCheck = false;
-					
-				}
-				else if(errorCheck(immuText.getText().toString())){
-								immError.setText("No numbers or symbols.");
-								quitClick =0;
-								saveCheck = false;
-				}
+			if(!(needUpdate.isSelected()||upToDate.isSelected())){
+				immError.setText("Please Select Immuzation Status");
+				quitClick =0;
+				saveCheck = false;
+			}
 			if(emergencyText.getText().trim().equals("")){
 				emeError.setText("Need a emergency contact.");
 				quitClick =0;
 				saveCheck = false;
 				
 			}
-			else if(errorCheck(emergencyText.getText().toString())){
+			else if(getNonLetterCount(emergencyText.getText().toString())){
 							emeError.setText("No numbers or symbols.");
 							quitClick =0;
 							saveCheck = false;
@@ -448,7 +515,7 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-			else if(errorCheck(relText.getText().toString())){
+			else if(getNonLetterCount(relText.getText().toString())){
 							relError.setText("No numbers or symbols.");
 							quitClick =0;
 							saveCheck = false;
@@ -459,14 +526,14 @@ public class HealthController {
 				saveCheck = false;
 				
 			}
-			else if(errorCheck2(emeConText.getText().toString())){
+			else if(getSymbolCount(emeConText.getText().toString())){
 							ecnError.setText("No symbols.");
 							quitClick =0;
 							saveCheck = false;
 			}
-			else if(errorCheck4(emeConText.getText().trim().toString())){
+			else if(phoneErrorCheck(emeConText.getText().trim().toString())){
 				if (emeConText.getText().trim().toString().length() != 10){
-					ecnError.setText("Must be 10 characters long.");
+					ecnError.setText("Must be 10 numbers(only) long.");
 					quitClick =0;
 					saveCheck = false;
 				}
@@ -482,7 +549,11 @@ public class HealthController {
 				quitClick =0;
 				saveCheck = false;
 			}
-			
+			else if(inPriv.isSelected() && insuName.getText().trim().equals("")){
+				careError.setText("Please enter Insurance name.");
+				quitClick =0;
+				saveCheck = false;
+			}
 			else if(medicareText.getText().trim().equals("")){
 				careError.setText("Please enter Insurance Number.");
 				quitClick =0;
@@ -503,7 +574,7 @@ public class HealthController {
 			}
 
 			if(complaint.getText().trim().equals("")){
-				cError.setText("Please enter the paitents complaint.");
+				cError.setText("Please enter the patients complaint.");
 				saveResult.setText("");
 				quitClick =0;
 				saveCheck = false;
@@ -515,25 +586,72 @@ public class HealthController {
 					fName = fNameText.getText().toString();
 					lName = lNameText.getText().toString();
 					comp = complaint.getText().toString();
+					ssString = ssText.getText().toString();
+					addressString = addText.getText().toString();
+					cityString = cityText.getText().toString();
+					zipString = zipText.getText().toString();
+					countyString = countyText.getText().toString();
+					phoneString = phoneText.getText().toString();
+					dobString = dob.getValue().toString();
+					genderTransfer = (RadioButton)gender.getSelectedToggle();
+					genderString = genderTransfer.getText().toString();
+					immuTransfer = (RadioButton)immuStatus.getSelectedToggle();
+					immuString = immuTransfer.getText();
+					emcString = emergencyText.getText().toString();
+					relationString = relText.getText().toString();
+					ecnString = emeConText.getText().toString();
+					insuranceTransfer = (RadioButton)insurance.getSelectedToggle();
+					insuranceButtonString =insuranceTransfer.getText().toString();
+					if(inPriv.isSelected()){
+						insuranceNameString = insuName.getText().toString();
+					}
+					else{
+						insuranceNameString = "";
+					}
+					insuranceNumberString = medicareText.getText().toString();
+					appointString = appointment.getValue().toString();
+					
+					
+					if(isNotRetrieved){
+					while(true){		
+					idDouble = Math.random() *101;
+					id = (idDouble.intValue());
+					if(!pList.containsKey(id)){
+						break;
+					}
+					}
+					}
+					
+					pList.put(id, new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
+							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +"\n" + insuranceNameString + "\n" +insuranceNumberString),
+							appointString,comp));
+					
 					
 					saveResult.setTextFill(Color.BLACK);
-					saveResult.setText("Data is Saved on paitent.txt, have a great day!");
+				
 					quitClick =0;
-	
-				//This is ignored until the other word is finished. to avoid making errors or mess.	
-	
-				/*	try{
-						FileOutputStream file = new FileOutputStream("paitent.txt", true);
+
+					
+					/* I save the information into this file using a try catch method in order to catch the
+					 * IOException should there be one.
+					 */
+					try{
+						FileOutputStream file = new FileOutputStream("patient.txt");
 						ObjectOutputStream file2= new ObjectOutputStream(file);
 						
 						file2.writeObject(pList);
 						file2.close();
 						file.close(); 
-						saveResult.setText("Data is Saved on paitent.txt, have a great day!");
+						saveResult.setText("Patient number " + id +" has been saved, have a great day!");
+						
+						
 					}
 					catch(IOException ex){
 						ex.printStackTrace();
-					} */
+					}
+					//Should the data have been retrieved the value is switched back to true so the next
+					//patient is able to get an id.
+					isNotRetrieved =true;
 				}
 			
 	
@@ -543,7 +661,6 @@ public class HealthController {
 		 */
 		find.setOnAction(e->{
 			
-		
 			
 			
 			FXMLLoader loadFinder = new FXMLLoader();
@@ -583,6 +700,42 @@ public class HealthController {
 			System.exit(0);
 			}
 		});
+		/*This clears all the text in the fields.
+		 *Should be completely empty.
+		 */
+		
+		clear.setOnAction(e->{
+			
+			fNameText.clear();
+			lNameText.clear();
+			ssText.clear();
+			addText.clear();
+			cityText.clear();
+			zipText.clear();
+			phoneText.clear();
+			dob.setValue(null);
+			genMale.setSelected(false);
+			genFemale.setSelected(false);
+			otherGen.setSelected(false);
+			upToDate.setSelected(false);
+			needUpdate.setSelected(false);
+			emeConText.clear();
+			relText.clear();
+			emergencyText.clear();
+			inAid.setSelected(false);
+			inCare.setSelected(false);
+			inPriv.setSelected(false);
+			insuName.clear();
+			medicareText.clear();
+			complaint.clear();
+			appointment.setValue(null);
+			saveResult.setText("");
+			saveResult.setTextFill(Color.BLACK);
+			
+			
+			
+			
+		});
 		
 	}
 		
@@ -594,12 +747,10 @@ public class HealthController {
 			 * hit the confirm button again
 			 */
 			confirmOrError.setWrapText(true);
-			confirmButton.setOnAction(e->{
-				
-				//This will take the user to the payment main window again to set an appointment, or to pay.
-			});
+
 			
 			quit2.setOnAction(e->{
+				patientConfirm = 0;
 				quitClick++;
 				confirmOrError.setFont(Font.font(null,FontWeight.BOLD, 18));
 				confirmOrError.setTextFill(Color.RED);
@@ -610,110 +761,214 @@ public class HealthController {
 				System.exit(0);
 				}
 			});
+			
+			clearFinder.setOnAction(e->{
+				fNameConfirmation.setText("First Name");
+				lNameConfirmation.setText("Last Name");
+				ssConfirmation.setText("999-99-9999");
+				addConfirmation.setText("Address");
+				confirmOrError.setTextFill(Color.BLACK);
+				confirmOrError.setText("");
+				patientConfirm = 0;
+				quitClick =0;
+				iDFinder.clear();
+				
+			});
+			
+			
+			
+			confirmButton.setOnAction(e->{
+				
+				confirmOrError.setTextFill(Color.BLACK);
+				quitClick = 0;
+				confirmOrError.setText("");
+				
+				try{
+					FileInputStream fileinput = new FileInputStream("patient.txt");
+					ObjectInputStream file2input= new ObjectInputStream(fileinput);
+					try{
+						pList.clear();
+							
+						pList = (HashMap) file2input.readObject();
+						
+					
+					}
+					catch(EOFException ex1){
+						
+					}
+
+					
+					file2input.close();
+				}
+				catch(Exception ex){
+					System.out.println("File is here!!");
+				}
+			
+				/*This will check if the patient confirm is only one
+				 * this makes sure that you can see the information before 
+				 * the program retrieves the rest and displays
+				 */
+				
+				if(patientConfirm == 0){
+					fNameConfirmation.setText("First Name");
+					lNameConfirmation.setText("Last Name");
+					ssConfirmation.setText("999-99-9999");
+					addConfirmation.setText("Address");
+					
+					/*This try catch is for making sure the id is an integer
+					 * if the person enters something that is not an integer the program will
+					 * throw an NumberFormatException, which will check if the textfield has 
+					 * anything inside it or if the person left it empty ("") <- empty.
+					 * 
+					 */
+					try{
+					id = Integer.parseInt(iDFinder.getText().toString());
+					
+					if(pList.containsKey(id)){
+						
+						fNameConfirmation.setText(pList.get(id).getfName());
+						lNameConfirmation.setText(pList.get(id).getlName());
+						ssConfirmation.setText(pList.get(id).getSsn());
+						addConfirmation.setText(pList.get(id).getAddress());
+						confirmOrError.setText("Is this your information? (hit enter to confirm)");
+						patientConfirm++;
+					}
+					else{
+						confirmOrError.setText("Patient ID not found.");
+						patientConfirm =0;
+					}
+
+					
+					}
+					catch(NumberFormatException exe){
+						if (iDFinder.getText().toString().trim().equals("")){
+							confirmOrError.setText("Please enter the patient id number.");
+						}
+						else{
+							confirmOrError.setText("Please only enter patient id number.");
+						}
+						
+					}
+					
+				
+
+				}
+				
+				else if(patientConfirm ==1){
+					confirmOrError.setTextFill(Color.BLACK);
+					confirmOrError.setText("Please Go back to the HealthCare Clinic Main Screen (do not hit close)");
+					
+					fNameText.setText(pList.get(id).getfName());
+					lNameText.setText(pList.get(id).getlName());
+					ssText.setText(pList.get(id).getSsn());
+					addText.setText(pList.get(id).getAddress());
+					cityText.setText(pList.get(id).getCity());
+					zipText.setText(pList.get(id).getZipCode());
+					phoneText.setText(pList.get(id).getPhone());
+					
+					//Convert the date of birth into LocalDate to store in the DatePicker
+					dobDate.parse(pList.get(id).getDateOfBirth());		
+					dob.setValue(dobDate);
+					//It checks of the string says Male or Female and selects the correct gender.
+					if(pList.get(id).getGender().equals("Male")){
+					genMale.setSelected(true);
+					}else if(pList.get(id).getGender().equals("Female")){
+					genFemale.setSelected(true);
+					}else{
+					otherGen.setSelected(true);
+					}
+					//I do the same thing I did for gender for immunization status
+					if(pList.get(id).getImmunizationStatus().equals("Up To Date")){
+					upToDate.setSelected(true);
+					}else{
+					needUpdate.setSelected(true);
+					}
+					emeConText.setText(pList.get(id).getEmergencyContactNumber());
+					relText.setText(pList.get(id).getRelationship());
+					emergencyText.setText(pList.get(id).getEmergencyContact());
+					
+					//I split the String for the insurance information into multiple Strings separated by "\n"
+					insuranceSplit = pList.get(id).insurance.split("\n");
+					//I check which is selected. Once again it is the same as the gender checker above.
+					if(insuranceSplit[0].equals("Medicaid")){
+					inAid.setSelected(true);
+					}else if(insuranceSplit[0].equals("Medicare")){
+					inCare.setSelected(true);
+					}else{
+					inPriv.setSelected(true);
+					}
+					insuName.setText(insuranceSplit[1]);
+					medicareText.setText(insuranceSplit[2]);
+					appointment.setValue(null);
+					
+					/*I delete the elements inside the insuranceSplit array in order
+					 * to make sure the array is empty for the next patient retrieval.
+					 */
+					insuranceSplit = null;
+					
+					//I set the isNotRetrieved to false because this data was retrieved from a file
+					isNotRetrieved = false;
+					
+				}
+				
+				
+				
+				
+			});
+			
+			
+			
 		}
 		
 		/* This check is for when all I want
 		 * is letters and no numbers or symbols.
 		 * Mostly used for names.
+		 * The way this works is that we make a pattern listing everything that is not between and including A-Z and a-z
+		 * This would exclude symbols and numbers
+		 * Matcher puts the String that we send to it against the pattern in an attempt to find any matches, should it find
+		 * one it will save the last match. the find method returns a boolean true if there was a match and false if there was not
+		 * and I return the true or false.
 		 */
 		
+		public boolean getNonLetterCount(String s) {
+			
+		     Pattern p = Pattern.compile("[^A-Za-z]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
 
-	public boolean errorCheck(String test){
+		     return b;
+		 }
 		
-		if(test.contains("1") ||
-				test.contains("2") ||
-				test.contains("3") ||
-				test.contains("4") ||
-				test.contains("5") ||
-				test.contains("6") ||
-				test.contains("7") ||
-				test.contains("8") ||
-				test.contains("9") ||
-				test.contains("0") ||
-				test.contains("!") ||
-				test.contains("@") ||
-				test.contains("#") ||
-				test.contains("$") ||
-				test.contains("%") ||
-				test.contains("^") ||
-				test.contains("&") ||
-				test.contains("*") ||
-				test.contains("(") ||
-				test.contains(")") ||
-				test.contains("_") ||
-				test.contains("-") ||
-				test.contains("+") ||
-				test.contains("=") ||
-				test.contains("[") ||
-				test.contains("]") ||
-				test.contains("{") ||
-				test.contains("}") ||
-				test.contains("\\") ||
-				test.contains("|") ||
-				test.contains(":") ||
-				test.contains("\"") ||
-				test.contains("'") ||
-				test.contains("<") ||
-				test.contains(">") ||
-				test.contains("?") ||
-				test.contains(",") ||
-				test.contains(".") ||
-				test.contains("/") ||
-				test.contains("`") ||
-				test.contains("~")){
-			
-			
-			return true;
-		}
-		else{
-			return false;
-		}
-				
-	}
-	/* This check is for when I want them to enter
-	 * numbers but not symbols.
-	 */
-	
-	public boolean errorCheck2(String test2){
+		//This check is for when I do not want letters or symbols. 
 		
-		if (test2.contains("!") ||
-				test2.contains("@") ||
-				test2.contains("#") ||
-				test2.contains("$") ||
-				test2.contains("%") ||
-				test2.contains("^") ||
-				test2.contains("&") ||
-				test2.contains("*") ||
-				test2.contains("(") ||
-				test2.contains(")") ||
-				test2.contains("_") ||
-				test2.contains("-") ||
-				test2.contains("+") ||
-				test2.contains("=") ||
-				test2.contains("[") ||
-				test2.contains("]") ||
-				test2.contains("{") ||
-				test2.contains("}") ||
-				test2.contains("\\") ||
-				test2.contains("|") ||
-				test2.contains(":") ||
-				test2.contains("\"") ||
-				test2.contains("'") ||
-				test2.contains("<") ||
-				test2.contains(">") ||
-				test2.contains("?") ||
-				test2.contains(",") ||
-				test2.contains(".") ||
-				test2.contains("/") ||
-				test2.contains("`") ||
-				test2.contains("~")){
+		public boolean getLetterCount(String s) {
 			
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+		     Pattern p = Pattern.compile("[^0-9]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+
+		     return b;
+		 }
+		
+		//This check is for when I do not want symbols.
+		public boolean getSymbolCount(String s) {
+			
+		     Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+
+		     return b;
+		 }
+		//This is for Address, which can have spaces.
+		public boolean getAddressCount(String s) {
+			
+		     Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+
+		     return b;
+		 }
+
 	/* this check is for making sure
 	 * the data received is just numbers.
 	 * If the person adds a letter it will
@@ -722,8 +977,8 @@ public class HealthController {
 	 * the try returns true. If everything is ok
 	 * then the try returns false.
 	 */
-	
-	public boolean errorCheck3(String test3){
+	//Change The Names.
+	public boolean ssnErrorCheck(String test3){
 		
 		try{
 			int tester = Integer.parseInt(test3);
@@ -740,9 +995,9 @@ public class HealthController {
 		}
 	}
 	/* this check is for numbers with 10+ values like phone 
-	 * numbers. Same as errorCheck3.
+	 * numbers. Same as ssnErrorCheck.
 	 */
-	public boolean errorCheck4(String test4){
+	public boolean phoneErrorCheck(String test4){
 		
 		try{
 			long tester = Long.parseLong(test4);

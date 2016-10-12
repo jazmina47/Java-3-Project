@@ -6,57 +6,66 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.HealthController">
+<AnchorPane stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.HealthController">
    <children>
-      <Pane prefHeight="450.0" prefWidth="500.0">
-         <children>
-            <Label layoutX="31.0" layoutY="23.0" prefHeight="88.0" prefWidth="389.0" text="      Patient Finder">
-               <font>
-                  <Font name="Times New Roman Bold" size="42.0" />
-               </font>
-            </Label>
-            <Label layoutX="31.0" layoutY="114.0" prefHeight="45.0" prefWidth="122.0" text="Enter Patient ID: ">
-               <font>
-                  <Font name="Times New Roman Bold" size="15.0" />
-               </font>
-            </Label>
-            <TextField fx:id="iDFinder" layoutX="164.0" layoutY="124.0" prefHeight="25.0" prefWidth="227.0" />
-            <Label fx:id="fNameConfirmation" layoutX="31.0" layoutY="175.0" prefHeight="45.0" prefWidth="122.0" text="First Name">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="lNameConfirmation" layoutX="185.0" layoutY="175.0" prefHeight="45.0" prefWidth="122.0" text="Last Name">
-               <font>
-                  <Font name="Times New Roman Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="ssConfirmation" layoutX="31.0" layoutY="236.0" prefHeight="45.0" prefWidth="122.0" text=" 999-999-9999">
-               <font>
-                  <Font name="Times New Roman Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="addConfirmation" layoutX="185.0" layoutY="236.0" prefHeight="45.0" prefWidth="301.0" text="Address ">
-               <font>
-                  <Font name="Times New Roman Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="confirmOrError" layoutX="31.0" layoutY="294.0" prefHeight="126.0" prefWidth="227.0" text="Comfirmation or Error">
-               <font>
-                  <Font name="Times New Roman Bold" size="17.0" />
-               </font>
-            </Label>
-            <Button fx:id="confirmButton" layoutX="281.0" layoutY="357.0" mnemonicParsing="false" onAction="#Initialize2" prefHeight="45.0" prefWidth="93.0" text="Enter">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="quit2" layoutX="391.0" layoutY="357.0" mnemonicParsing="false" onAction="#Initialize2" prefHeight="45.0" prefWidth="93.0" text="quit">
-               <font>
-                  <Font name="Times New Roman Bold" size="20.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
+      <ScrollPane prefHeight="450.0" prefWidth="550.0" stylesheets="@../../style.css">
+         <content>
+            <Pane id="pane" prefHeight="450.0" prefWidth="550.0" stylesheets="@../../style.css">
+               <children>
+                  <Label layoutX="31.0" layoutY="23.0" prefHeight="88.0" prefWidth="389.0" text="      Patient Finder">
+                     <font>
+                        <Font name="Times New Roman Bold" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="31.0" layoutY="114.0" prefHeight="45.0" prefWidth="122.0" text="Enter Patient ID: ">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="iDFinder" layoutX="164.0" layoutY="124.0" onInputMethodTextChanged="#Initialize2" prefHeight="25.0" prefWidth="227.0" />
+                  <Label fx:id="fNameConfirmation" layoutX="31.0" layoutY="175.0" prefHeight="45.0" prefWidth="122.0" text="First Name">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameConfirmation" layoutX="185.0" layoutY="175.0" prefHeight="45.0" prefWidth="122.0" text="Last Name">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="ssConfirmation" layoutX="31.0" layoutY="236.0" prefHeight="45.0" prefWidth="122.0" text=" 999-99-9999">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="addConfirmation" layoutX="185.0" layoutY="236.0" prefHeight="45.0" prefWidth="301.0" text="Address ">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="confirmOrError" layoutX="31.0" layoutY="294.0" prefHeight="126.0" prefWidth="227.0" text="Comfirmation or Error">
+                     <font>
+                        <Font name="Times New Roman Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="confirmButton" layoutX="336.0" layoutY="357.0" mnemonicParsing="false" onAction="#Initialize2" prefHeight="45.0" prefWidth="93.0" text="Enter">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="quit2" layoutX="440.0" layoutY="357.0" mnemonicParsing="false" onAction="#Initialize2" prefHeight="45.0" prefWidth="93.0" text="quit">
+                     <font>
+                        <Font name="Times New Roman Bold" size="20.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="clearFinder" layoutX="249.0" layoutY="357.0" mnemonicParsing="false" onAction="#Initialize2" prefHeight="45.0" prefWidth="76.0" text="Clear">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

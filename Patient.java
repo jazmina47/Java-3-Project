@@ -1,22 +1,12 @@
 package healthcareLook;
-/*NOT SURE WHAT TO ADD/DELETE, FOR NOW LEAVE ALONE!
+/*NOT SURE WHAT TO ADD/DELETE...
  * 
  */
 import java.io.Serializable;
 
-public class Patient implements Serializable{
+public class Patient extends Person implements Serializable{
 	
-	String fName;
-	String lName;
-	String ssn;
-	String address;
-	String city;
-	String zipCode;
-	String county;
-	String phone;
-	String dateOfBirth;
-	String gender;
-	
+
 	String immunizationStatus;
 	String emergencyContact;
 	String relationship;
@@ -25,27 +15,18 @@ public class Patient implements Serializable{
 	String insurance;
 	String appointmentDate;
 	String complaint;
-	String patientId;
 	
 	public Patient(){
 		
 	}
 
-	
-	public Patient(String fName, String lName, String ssn, String address, String city, String zipCode,String county, String phone,
-			String dateOfBirth, String gender, String immunizationStatus, String emergencyContact, String relationship,
-			String emergencyContactNumber, String insurance, String appointmentDate, String complaint, String patientId) {
-		
-		this.fName = fName;
-		this.lName = lName;
-		this.ssn = ssn;
-		this.address = address;
-		this.city = city;
-		this.zipCode = zipCode;
-		this.county = county;
-		this.phone = phone;
-		this.dateOfBirth = dateOfBirth;
-		this.gender = gender;
+
+
+	public Patient(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
+			String phone, String dateOfBirth, String gender, String id, String immunizationStatus,
+			String emergencyContact, String relationship, String emergencyContactNumber, String insurance,
+			String appointmentDate, String complaint) {
+		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, id);
 		this.immunizationStatus = immunizationStatus;
 		this.emergencyContact = emergencyContact;
 		this.relationship = relationship;
@@ -53,103 +34,8 @@ public class Patient implements Serializable{
 		this.insurance = insurance;
 		this.appointmentDate = appointmentDate;
 		this.complaint = complaint;
-		this.patientId = patientId;
 	}
 
-
-	public String getfName() {
-		return fName;
-	}
-
-
-	public void setfName(String fName) {
-		this.fName = fName;
-	}
-
-
-	public String getlName() {
-		return lName;
-	}
-
-
-	public void setlName(String lName) {
-		this.lName = lName;
-	}
-
-
-	public String getSsn() {
-		return ssn;
-	}
-
-
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
-	}
-
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-	public String getZipCode() {
-		return zipCode;
-	}
-
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-
-	public String getCounty() {
-		return county;
-	}
-
-
-	public void setCounty(String county) {
-		this.county = county;
-	}
-
-
-	public String getPhone() {
-		return phone;
-	}
-
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-
-	public String getGender() {
-		return gender;
-	}
 
 
 	public void setGender(String gender) {
@@ -227,14 +113,6 @@ public class Patient implements Serializable{
 	}
 	
 
-	public String getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
-	}
-
 	public String toString(){
 		return "\nPatient Information:\nFirst Name: " +fName+"\nLast Name: " + lName+ 
 				"\nSocial Security Number: "+ssn+"\nAddress: "+ address+"\nCity: " +city+
@@ -242,7 +120,8 @@ public class Patient implements Serializable{
 				"\nDate of Birth: "+dateOfBirth+ "\nGender: "+gender+ "\nImmunization Status: " +immunizationStatus+
 				"\nEmergency Contact: " +emergencyContact+"\nRelationship: "+relationship+ 
 				"\nEmergency Contact Number: "+emergencyContactNumber+ "\nInsurance Details: "+insurance+ 
-				"\nAppointment Date: "+appointmentDate+ "\nPatient Complaints: " +complaint +"\n" + "ID #: " + patientId +"\n___________\n";
+				"\nAppointment Date: "+appointmentDate+ "\nPatient Complaints: " +complaint +"\n" + "ID #: " + id +"\n___________\n";
 	}
 	
 }
+

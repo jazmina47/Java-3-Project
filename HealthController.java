@@ -1,3 +1,4 @@
+
 package healthcareLook;
 
 import java.io.EOFException;
@@ -17,14 +18,12 @@ import java.util.regex.Pattern;
 import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -37,8 +36,7 @@ import javafx.scene.text.FontWeight;
  */
 
 /*TEST SAVING AND LOADING OF DATA!
- * LESS SPACE!
- * TOOLTIPS!
+ *
  *
  */
 public class HealthController {	
@@ -199,7 +197,7 @@ public class HealthController {
 	appointString;
 	
 
-
+	//I create a tooltip.
 	Tooltip errorTool;
 	
 	//id and idDouble is to generate a random id and make it integer

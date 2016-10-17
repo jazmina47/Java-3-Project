@@ -1,53 +1,69 @@
-package health_care_final_project;
+package healthcareLook;
 
-public class Employee extends Person{
+import java.io.Serializable;
+
+public class Employee extends Person implements Serializable{
 	
-	//data fields 
-	private String title;
-	private String specialty;
-	private double salary;
+	String position;
+	String speciality;
+	String salary;
 	
-	//construct a default Employee object
-	public Employee() {		
+	
+	//default constructor 
+	public Employee() {	
 	}
 
-	//construct an Employee object with the specified firstName, lastName, title, specialty, and salary
-	public Employee(String firstName, String lastName, String title, String specialty, double salary) {
-		
-		//inherited methods from Person class
-		setFirstName(firstName);
-		setLastName(lastName);
-		
-		//super keyword can be used to invoke the superclass constructor with the specified arguments
-		//super(firstName, lastName);
-		this.title = title;
-		this.specialty = specialty;
+
+	public Employee(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
+			String phone, String dateOfBirth, String gender, String id, String position, String speciality,
+			String salary) {
+		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, id);
+		this.position = position;
+		this.speciality = speciality;
 		this.salary = salary;
 	}
 
-	//setters and getters
-	public String getTitle() {
-		return title;
+
+
+
+
+	public String getPosition() {
+		return position;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
-	public String getSpecialty() {
-		return specialty;
+
+	public String getSpeciality() {
+		return speciality;
 	}
 
-	public void setSpecialty(String specialty) {
-		this.specialty = specialty;
+
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
 	}
 
-	public double getSalary() {
+
+	public String getSalary() {
 		return salary;
 	}
 
-	public void setSalary(double salary) {
+
+	public void setSalary(String salary) {
 		this.salary = salary;
 	}
+
+
+	/*public String toString(){
+		//Working on now. comment out.
+		return "Employee Information
+	}
+
+	*/
 	
+
+
 }

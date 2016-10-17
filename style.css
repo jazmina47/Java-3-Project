@@ -1,0 +1,11 @@
+#pane{
+    -fx-background-image: url("https://image.freepik.com/free-vector/grey-linen-texture-background_1053-253.jpg");
+    -fx-background-repeat: stretch;  
+    -fx-background-width: 100%;
+    -fx-backround-position: absolute;
+    -fx-backround-attachment: fixed;
+    -fx-backround-left: 0;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    
+}

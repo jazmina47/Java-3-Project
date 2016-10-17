@@ -17,15 +17,18 @@ import java.util.regex.Pattern;
 import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
 
 /*The purpose of this program is to save and load patient data
  * this will use FileOutputStream and FileInputStream to bring and amend data.
@@ -34,13 +37,12 @@ import javafx.scene.text.FontWeight;
  */
 
 /*TEST SAVING AND LOADING OF DATA!
+ * LESS SPACE!
+ * TOOLTIPS!
  *
  */
-
-public class HealthController {
-	
+public class HealthController {	
 	//I create variables for labels, buttons, textfields, RadioButtons, and strings
-	
 	@FXML
 	Label fNameLabel;
 	@FXML
@@ -48,47 +50,49 @@ public class HealthController {
 	@FXML
 	Label compainLabel;
 	@FXML
+	Label insuranceNameLabel;
+	@FXML
 	Label diagLabel;
 	@FXML
 	Label saveResult;
 	@FXML
-	Label fError;
+	ImageView warningGender;
 	@FXML
-	Label lError;
+	ImageView warningfName;
 	@FXML
-	Label cError;
+	ImageView warninglName;
 	@FXML
-	Label ssError;
+	ImageView warningSsn;
 	@FXML
-	Label addError;
+	ImageView warningAddress;
 	@FXML
-	Label cityError;
+	ImageView warningCity;
 	@FXML
-	Label zipError;
+	ImageView warningZip;
 	@FXML
-	Label countyError;
+	ImageView warningCounty;
 	@FXML
-	Label phoneError;
+	ImageView warningPhone;
 	@FXML
-	Label dobError;
+	ImageView warningDob;
 	@FXML
-	Label immError;
+	ImageView warningImmunizationStatus;
 	@FXML
-	Label emeError;
+	ImageView warningEmergencyContact;
 	@FXML
-	Label relError;
+	ImageView warningRelationship;
 	@FXML
-	Label ecnError;
+	ImageView warningEmergencyContactNumber;
 	@FXML
-	Label aidError;
+	ImageView warningInsuranceButton;
 	@FXML
-	Label careError;
+	ImageView warningInsuranceName;
 	@FXML
-	Label privError;
+	ImageView warningInsuranceNumber;
 	@FXML
-	Label appError;
+	ImageView warningAppointment;
 	@FXML
-	Label genError;
+	ImageView warningComplaint;
 	@FXML
 	Button butto;
 	@FXML	
@@ -165,15 +169,12 @@ public class HealthController {
 	ToggleGroup insurance = new ToggleGroup();
 	ToggleGroup immuStatus = new ToggleGroup();
 	
-	//a Label for the clock
-	@FXML
-	Label testClock;
 	
 	//If there are no errors saveCheck will remain true and the data will be saved. but if there is one problem
 	//The data will change saveCheck to false.
-	
+	boolean isAppointmentError=false;
+	boolean isDobError=false;
 	boolean saveCheck = true;
-	String errorDetails;
 	
 	//This is to check if the data was retrieved from a file or not, so you do not give the person a new ID.
 	//This will also override the past data stored.
@@ -184,11 +185,9 @@ public class HealthController {
 	
 	int quitClick;
 	
-	
 	/*these are the HashMaps for storing patient information
 	 * and for storing employee information.
 	 */
-	
 	
 	HashMap<Integer,Patient> pList = new HashMap<Integer,Patient>();
 	HashMap<Integer,Employee> sList = new HashMap<Integer,Employee>();
@@ -198,6 +197,10 @@ public class HealthController {
 	String fName,lName,comp,diag,patientData, addressString, ssString, cityString, zipString, countyString,
 	phoneString, dobString, genderString, immuString, emcString, relationString,ecnString, insuranceButtonString,insuranceNameString, insuranceNumberString,
 	appointString;
+	
+
+
+	Tooltip errorTool;
 	
 	//id and idDouble is to generate a random id and make it integer
 	int id;
@@ -221,7 +224,6 @@ public class HealthController {
 	@FXML
 	public void Intialize(){
 
-		
 		genMale.setToggleGroup(gender);
 		genFemale.setToggleGroup(gender);
 		inPriv.setToggleGroup(insurance);
@@ -231,20 +233,22 @@ public class HealthController {
 		needUpdate.setToggleGroup(immuStatus);
 		upToDate.setToggleGroup(immuStatus);
 		
-		testClock = new RealClock();
-		
 		todayDate = format.format(date);
-		
-		
 
 		/* this is for making sure the save to the file is correct*/
 		//I wrap the text around so it does not continue in one line and go on as "..."
 		saveResult.setWrapText(true);
-		careError.setWrapText(true);
-		ecnError.setWrapText(true);
-		immError.setWrapText(true);
 		saveResult.setFont(Font.font(null,FontWeight.BOLD, 18));
 		
+		
+		if(!inPriv.isSelected()){
+			insuName.setVisible(false);
+			insuranceNameLabel.setVisible(false);
+		}
+		else{
+			insuName.setVisible(true);
+			insuranceNameLabel.setVisible(true);
+		}
 		
 		
 		/* If the enter button is pressed then the program
@@ -256,7 +260,6 @@ public class HealthController {
 		 * and you will see nothing.
 		 */
 		butto.setOnAction(e ->{
-
 
 			try{
 				FileInputStream fileinput = new FileInputStream("patient.txt");
@@ -283,29 +286,13 @@ public class HealthController {
 			/*This code allows for the error test to be "reset" each time
 			 * you click the save information button.
 			 */
-		
-			fError.setText("");
-			lError.setText("");
-			cError.setText("");
-			saveResult.setText("");
-			ssError.setText("");
-			addError.setText("");
-			cityError.setText("");
-			zipError.setText("");
-			countyError.setText("");
-			phoneError.setText("");
-			dobError.setText("");
-			genError.setText("");
-			immError.setText("");
-			emeError.setText("");
-			relError.setText("");
-			ecnError.setText("");
-			careError.setText("");
-			appError.setText("");
+
 			saveCheck = true;
 			
 			if(fNameText.getText().trim().equals("")){
-				fError.setText("Please enter the first name.");
+				warningfName.setVisible(true);
+				errorTool.install(warningfName, new Tooltip("Please enter a first name."));
+				
 				//This is in case the user wants to save the data
 				//I want to remind them again that the data could be loss so
 				//I reset the count to zero so it can start at 1 next time they click close
@@ -314,229 +301,308 @@ public class HealthController {
 				
 			}
 				else if(getNonLetterCount(fNameText.getText().trim().toString())){
-						fError.setText("No numbers or symbols.");
+					warningfName.setVisible(true);
+					errorTool.install(warningfName, new Tooltip("No numbers or symbols."));
 						quitClick =0;
 						saveCheck = false;
 						
-						
+				}
+				else{
+					warningfName.setVisible(false);
 				}
 				
 			if(lNameText.getText().trim().equals("")){
-					lError.setText("Please enter the last name.");
+				warninglName.setVisible(true);
+				errorTool.install(warninglName, new Tooltip("Please enter the last name."));
 					quitClick =0;
 					saveCheck = false;
 					
 				}
 				else if(getNonLetterCount(lNameText.getText().toString())){
-								lError.setText("No numbers or symbols.");
+					warninglName.setVisible(true);
+					errorTool.install(warninglName, new Tooltip("No numbers or symbols."));
 								quitClick =0;
 								saveCheck = false;
 								
 					}
+				else{
+					warningfName.setVisible(false);
+				}
 			if(ssText.getText().trim().equals("")){
-				ssError.setText("Please enter SSN");
+				warningSsn.setVisible(true);
+				errorTool.install(warningSsn, new Tooltip("Please enter SSN"));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 				else if(getSymbolCount(ssText.getText().trim().toString())){
-						ssError.setText("No symbols.");
+					warningSsn.setVisible(true);
+					errorTool.install(warningSsn, new Tooltip("No symbols."));
 						quitClick =0;
 						saveCheck = false;
 				}
 			
 				else if(ssnErrorCheck(ssText.getText().trim().toString())){
 					if (ssText.getText().trim().toString().length() != 9){
-						ssError.setText("Must be 9 numbers(only) long.");
+						warningSsn.setVisible(true);
+						errorTool.install(warningSsn, new Tooltip("Must be 9 numbers(only) long."));
 						quitClick =0;
 						saveCheck = false;
 					}
 					else{
-					ssError.setText("No letters.");
+						warningSsn.setVisible(true);
+						errorTool.install(warningSsn, new Tooltip("No letters."));
 					}
 					quitClick =0;
 					saveCheck = false;
 				}
+				else{
+					warningfName.setVisible(false);
+				}
 			if(addText.getText().trim().equals("")){
-				addError.setText("Please enter address.");
+				warningAddress.setVisible(true);
+				errorTool.install(warningAddress, new Tooltip("Please enter address."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 				else if(getAddressCount(addText.getText().trim().toString())){
-						addError.setText("No symbols.");
+					warningAddress.setVisible(true);
+					errorTool.install(warningAddress, new Tooltip("No symbols."));
 						quitClick =0;
 						saveCheck = false;
 				}
+				else{
+					warningfName.setVisible(false);
+				}
 			
 			if(cityText.getText().trim().equals("")){
-				cityError.setText("Please enter city.");
+				warningCity.setVisible(true);
+				errorTool.install(warningCity, new Tooltip("Please enter city."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getNonLetterCount(cityText.getText().toString())){
-							cityError.setText("No numbers or symbols.");
+				warningCity.setVisible(true);
+				errorTool.install(warningCity, new Tooltip("No numbers or symbols."));
 							quitClick =0;
 							saveCheck = false;
 							
 				}
+			else{
+				warningfName.setVisible(false);
+			}
 			if(zipText.getText().trim().equals("")){
-				zipError.setText("Please enter zip code.");
+				warningZip.setVisible(true);
+				errorTool.install(warningZip, new Tooltip("Please enter zip code."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getSymbolCount(zipText.getText().toString())){
-							zipError.setText("No symbols.");
+				warningZip.setVisible(true);
+				errorTool.install(warningZip, new Tooltip("No symbols."));
 							quitClick =0;
 							saveCheck = false;
 							
 				}
+			else{
+				warningfName.setVisible(false);
+			}
 			if(countyText.getText().trim().equals("")){
-				countyError.setText("Please enter county.");
+				warningCounty.setVisible(true);
+				errorTool.install(warningCounty, new Tooltip("Please enter county."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getNonLetterCount(countyText.getText().toString())){
-							countyError.setText("No numbers or symbols.");
+				warningCounty.setVisible(true);
+				errorTool.install(warningCounty, new Tooltip("No numbers or symbols."));
 							quitClick =0;
 							saveCheck = false;
 							
 				}
+			else{
+				warningfName.setVisible(false);
+			}
 			if(phoneText.getText().trim().equals("")){
-				phoneError.setText("Please enter a phone number");
+				warningPhone.setVisible(true);
+				errorTool.install(warningPhone, new Tooltip("Please enter a phone number"));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 				else if(getSymbolCount(phoneText.getText().trim().toString())){
-						phoneError.setText("No symbols.");
+					warningPhone.setVisible(true);
+					errorTool.install(warningPhone, new Tooltip("No symbols."));
 						quitClick =0;
 						saveCheck = false;
 				}
 			
 				else if(phoneErrorCheck(phoneText.getText().trim().toString())){
+					warningPhone.setVisible(true);
 					if (phoneText.getText().trim().toString().length() != 10){
-						phoneError.setText("Must be 10 numbers(only) long.");
+						errorTool.install(warningPhone, new Tooltip("10 numbers(only)."));
 						quitClick =0;
 						saveCheck = false;
 					}
 					else{
-					phoneError.setText("No letters.");
+						warningPhone.setVisible(true);
+						errorTool.install(warningPhone, new Tooltip("No letters."));
 					}
 					quitClick =0;
 					saveCheck = false;
 				}
-			try{
-				if(dob.getValue().equals("")){
-				dobError.setText("This should never appear");
+				else{
+					warningfName.setVisible(false);
 				}
-				
-			}
-			catch(NullPointerException ex){
-				dobError.setText("Please enter date of birth.");
-				quitClick =0;
-				saveCheck = false;
+			isDobError=false;
+				try{
+					if(dob.getValue().equals("")){
+					}
+				}
+				catch(NullPointerException ex){
+					warningDob.setVisible(true);
+					errorTool.install(warningDob, new Tooltip("Please enter date of birth."));
+					quitClick =0;
+					saveCheck = false;
+					isDobError= true;
+				}
+			if(!isDobError){
+				warningDob.setVisible(false);
 			}
 			if(!(genMale.isSelected()||genFemale.isSelected()||otherGen.isSelected())){
-				genError.setText("Please pick a gender.");
+				warningGender.setVisible(true);
+				errorTool.install(warningGender, new Tooltip("Please pick a gender."));
 				quitClick =0;
 				saveCheck = false;
 			}
-		
-			
+			else{
+				warningfName.setVisible(false);
+			}
 			if(!(needUpdate.isSelected()||upToDate.isSelected())){
-				immError.setText("Please Select Immuzation Status");
+				warningImmunizationStatus.setVisible(true);
+				errorTool.install(warningImmunizationStatus, new Tooltip("Please Select Immuzation Status"));
 				quitClick =0;
 				saveCheck = false;
+			}
+			else{
+				warningfName.setVisible(false);
 			}
 			if(emergencyText.getText().trim().equals("")){
-				emeError.setText("Need a emergency contact.");
+				warningEmergencyContact.setVisible(true);
+				errorTool.install(warningEmergencyContact, new Tooltip("Need a emergency contact."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getNonLetterCount(emergencyText.getText().toString())){
-							emeError.setText("No numbers or symbols.");
+				warningEmergencyContact.setVisible(true);
+				errorTool.install(warningEmergencyContact, new Tooltip("No numbers or symbols."));
 							quitClick =0;
 							saveCheck = false;
 			}
+			else{
+				warningfName.setVisible(false);
+			}
 			if(relText.getText().trim().equals("")){
-				relError.setText("Please enter relationship to person.");
+				warningRelationship.setVisible(true);
+				errorTool.install(warningRelationship, new Tooltip("Please enter relationship to person."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getNonLetterCount(relText.getText().toString())){
-							relError.setText("No numbers or symbols.");
+				warningRelationship.setVisible(true);
+				errorTool.install(warningRelationship, new Tooltip("No numbers or symbols."));
 							quitClick =0;
 							saveCheck = false;
 			}
+			else{
+				warningfName.setVisible(false);
+			}
 			if(emeConText.getText().trim().equals("")){
-				ecnError.setText("Please enter contact number.");
+				warningEmergencyContactNumber.setVisible(true);
+				errorTool.install(warningEmergencyContactNumber, new Tooltip("Please enter contact number."));
 				quitClick =0;
 				saveCheck = false;
 				
 			}
 			else if(getSymbolCount(emeConText.getText().toString())){
-							ecnError.setText("No symbols.");
+				warningEmergencyContactNumber.setVisible(true);
+				errorTool.install(warningEmergencyContactNumber, new Tooltip("No symbols."));
 							quitClick =0;
 							saveCheck = false;
 			}
 			else if(phoneErrorCheck(emeConText.getText().trim().toString())){
 				if (emeConText.getText().trim().toString().length() != 10){
-					ecnError.setText("Must be 10 numbers(only) long.");
+					warningEmergencyContactNumber.setVisible(true);
+					errorTool.install(warningEmergencyContactNumber, new Tooltip("Must be 10 numbers(only) long."));
 					quitClick =0;
 					saveCheck = false;
 				}
 				else{
-				ecnError.setText("No letters.");
+					warningEmergencyContactNumber.setVisible(true);
+					errorTool.install(warningEmergencyContactNumber, new Tooltip("No letters."));
 				}
 				quitClick =0;
 				saveCheck = false;
 			}
-
+			else{
+				warningfName.setVisible(false);
+			}
 			if(!(inAid.isSelected()||inCare.isSelected()||inPriv.isSelected())){
-				careError.setText("Please pick your insurance.");
+				warningInsuranceButton.setVisible(true);
+				errorTool.install(warningInsuranceButton, new Tooltip("Please pick your insurance."));
 				quitClick =0;
 				saveCheck = false;
 			}
 			else if(inPriv.isSelected() && insuName.getText().trim().equals("")){
-				careError.setText("Please enter Insurance name.");
+				warningInsuranceName.setVisible(true);
+				errorTool.install(warningInsuranceName, new Tooltip("Please enter Insurance name."));
 				quitClick =0;
 				saveCheck = false;
 			}
 			else if(medicareText.getText().trim().equals("")){
-				careError.setText("Please enter Insurance Number.");
+				warningInsuranceNumber.setVisible(true);
+				errorTool.install(warningInsuranceNumber, new Tooltip("Please enter Insurance Number."));
 				quitClick =0;
 				saveCheck = false;
 			}
-		
+			else{
+				warningfName.setVisible(false);
+			}isAppointmentError=false;
 			try{
 				if(appointment.getValue().equals("")){
-				appError.setText("This should never appear");
-				}
-				
+				}				
 			}
 			catch(NullPointerException ex){
+				warningAppointment.setVisible(true);
 				appointment.setPromptText(todayDate);
-				appError.setText("Please select today if there is no appointment");
+				errorTool.install(warningAppointment, new Tooltip("Please select today if there is no appointment"));
 				quitClick =0;
 				saveCheck = false;
+				isAppointmentError=true;
 			}
-
+			if(!isAppointmentError){
+				warningAppointment.setVisible(false);
+			}
 			if(complaint.getText().trim().equals("")){
-				cError.setText("Please enter the patients complaint.");
+				warningComplaint.setVisible(true);
+				errorTool.install(warningComplaint, new Tooltip("Please enter the patients complaint."));
 				saveResult.setText("");
 				quitClick =0;
 				saveCheck = false;
 			}
+			else{
+				warningfName.setVisible(false);
+			}
 			/* I save all the data into strings to better place them into 
 			 * a file for saving later.
 			 */
-				else if (saveCheck){
+				if (saveCheck){
 					fName = fNameText.getText().toString();
 					lName = lNameText.getText().toString();
 					comp = complaint.getText().toString();
@@ -565,7 +631,6 @@ public class HealthController {
 					insuranceNumberString = medicareText.getText().toString();
 					appointString = appointment.getValue().toString();
 					
-					
 					if(isNotRetrieved){
 					while(true){		
 					idDouble = Math.random() *101;
@@ -574,31 +639,22 @@ public class HealthController {
 						break;
 					}
 					}
-					}
-					
+					}					
 					pList.put(id, new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
 							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +"\n" + insuranceNameString + "\n" +insuranceNumberString),
-							appointString,comp, Integer.toString(id)));
-					
-					
-					saveResult.setTextFill(Color.BLACK);
-				
-					quitClick =0;
-
-					
+							appointString,comp, Integer.toString(id)));										
+					saveResult.setTextFill(Color.BLACK);				
+					quitClick =0;					
 					/* I save the information into this file using a try catch method in order to catch the
 					 * IOException should there be one.
 					 */
 					try{
 						FileOutputStream file = new FileOutputStream("patient.txt");
-						ObjectOutputStream file2= new ObjectOutputStream(file);
-						
+						ObjectOutputStream file2= new ObjectOutputStream(file);					
 						file2.writeObject(pList);
 						file2.close();
 						file.close(); 
 						saveResult.setText("Patient number " + id +" has been saved, have a great day!");
-						
-						
 					}
 					catch(IOException ex){
 						ex.printStackTrace();
@@ -606,46 +662,30 @@ public class HealthController {
 					//Should the data have been retrieved the value is switched back to true so the next
 					//patient is able to get an id.
 					isNotRetrieved =true;
-				}
-			
-	
+				}			
 		});
 		/* If the person clicks the find button they will open another window made
 		 * for finding a patient
 		 */
 		find.setOnAction(e->{
-			
-			
-			
-			id = PatientFinderMain.startAgain();
-			
+			id = PatientFinderMain.startAgain();		
 			System.out.println("Id retrieved: " + id);
-			
-			
 			try{
 				FileInputStream fileinput = new FileInputStream("patient.txt");
 				ObjectInputStream file2input= new ObjectInputStream(fileinput);
 				try{
-					if(pList.isEmpty()){
-						
-					pList = (HashMap) file2input.readObject();
-					
-					}
-				
+					if(pList.isEmpty()){					
+					pList = (HashMap) file2input.readObject();				
+					}			
 				}
-				catch(EOFException ex1){
-					
-				}
-
-				
+				catch(EOFException ex1){					
+				}			
 				file2input.close();
 			}
 			catch(Exception ex){
 				System.out.println("Gotta make new file!");
-			}
-			
-		try{
-			
+			}		
+		try{		
 			fNameText.setText(pList.get(id).getfName());
 			lNameText.setText(pList.get(id).getlName());
 			ssText.setText(pList.get(id).getSsn());
@@ -653,8 +693,7 @@ public class HealthController {
 			cityText.setText(pList.get(id).getCity());
 			zipText.setText(pList.get(id).getZipCode());
 			countyText.setText(pList.get(id).getCounty());
-			phoneText.setText(pList.get(id).getPhone());
-			
+			phoneText.setText(pList.get(id).getPhone());	
 			//Convert the date of birth into LocalDate to store in the DatePicker
 			dob.setValue(LocalDate.parse(pList.get(id).getDateOfBirth()));
 			//It checks of the string says Male or Female and selects the correct gender.
@@ -674,7 +713,6 @@ public class HealthController {
 			emeConText.setText(pList.get(id).getEmergencyContactNumber());
 			relText.setText(pList.get(id).getRelationship());
 			emergencyText.setText(pList.get(id).getEmergencyContact());
-			
 			//I split the String for the insurance information into multiple Strings separated by "\n"
 			insuranceSplit = pList.get(id).insurance.split("\n");
 			//I check which is selected. Once again it is the same as the gender checker above.
@@ -688,45 +726,34 @@ public class HealthController {
 			insuName.setText(insuranceSplit[1]);
 			medicareText.setText(insuranceSplit[2]);
 			appointment.setValue(null);
-			
 			/*I delete the elements inside the insuranceSplit array in order
 			 * to make sure the array is empty for the next patient retrieval.
 			 */
 			insuranceSplit = null;
-			
 			//I set the isNotRetrieved to false because this data was retrieved from a file
-			isNotRetrieved = false;
-		
+			isNotRetrieved = false;		
+			System.out.println(pList.get(id).toString());
 			}
 		catch(NullPointerException nullex){
 			System.out.println("Nope!");
-		}
-			
-			
-		});
-		
-		
-		
+		}				
+		});			
 		/* IF the person clicks the close button the program will close. Any data
 		 * not saved will be lost.
 		 */
 		quit.setOnAction(e->{
 			quitClick++;
 			saveResult.setFont(Font.font(null,FontWeight.BOLD, 18));
-			saveResult.setTextFill(Color.RED);
-			
-			saveResult.setText("All unsaved data will be lost! Click " + "\"Close\"" + " again to proceed.");
-			
+			saveResult.setTextFill(Color.RED);		
+			saveResult.setText("All unsaved data will be lost! Click " + "\"Close\"" + " again to proceed.");		
 			if (quitClick == 2){
 			System.exit(0);
 			}
 		});
 		/*This clears all the text in the fields.
 		 *Should be completely empty.
-		 */
-		
-		clear.setOnAction(e->{
-			
+		 */	
+		clear.setOnAction(e->{	
 			fNameText.clear();
 			lNameText.clear();
 			ssText.clear();
@@ -751,16 +778,9 @@ public class HealthController {
 			complaint.clear();
 			appointment.setValue(null);
 			saveResult.setText("");
-			saveResult.setTextFill(Color.BLACK);
-			
-			
-			
-			
-		});
-		
-	}
-		
-
+			saveResult.setTextFill(Color.BLACK);		
+		});	
+	}	
 		/* This check is for when all I want
 		 * is letters and no numbers or symbols.
 		 * Mostly used for names.
@@ -769,47 +789,34 @@ public class HealthController {
 		 * Matcher puts the String that we send to it against the pattern in an attempt to find any matches, should it find
 		 * one it will save the last match. the find method returns a boolean true if there was a match and false if there was not
 		 * and I return the true or false.
-		 */
-		
-		public boolean getNonLetterCount(String s) {
-			
+		 */	
+		public boolean getNonLetterCount(String s) {	
 		     Pattern p = Pattern.compile("[^A-Za-z]");
 		     Matcher m = p.matcher(s);
 		     boolean b = m.find();
-
 		     return b;
 		 }
-		
 		//This check is for when I do not want letters or symbols. 
-		
-		public boolean getLetterCount(String s) {
-			
+		public boolean getLetterCount(String s) {	
 		     Pattern p = Pattern.compile("[^0-9]");
 		     Matcher m = p.matcher(s);
 		     boolean b = m.find();
-
 		     return b;
 		 }
-		
 		//This check is for when I do not want symbols.
-		public boolean getSymbolCount(String s) {
-			
+		public boolean getSymbolCount(String s) {	
 		     Pattern p = Pattern.compile("[^A-Za-z0-9]");
 		     Matcher m = p.matcher(s);
 		     boolean b = m.find();
-
 		     return b;
 		 }
 		//This is for Address, which can have spaces.
-		public boolean getAddressCount(String s) {
-			
+		public boolean getAddressCount(String s) {	
 		     Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
 		     Matcher m = p.matcher(s);
 		     boolean b = m.find();
-
 		     return b;
 		 }
-
 	/* this check is for making sure
 	 * the data received is just numbers.
 	 * If the person adds a letter it will
@@ -820,10 +827,8 @@ public class HealthController {
 	 */
 	//Change The Names.
 	public boolean ssnErrorCheck(String test3){
-		
 		try{
-			int tester = Integer.parseInt(test3);
-			
+			int tester = Integer.parseInt(test3);	
 			if(test3.length() == 9){
 				return false;
 			}
@@ -839,10 +844,8 @@ public class HealthController {
 	 * numbers. Same as ssnErrorCheck.
 	 */
 	public boolean phoneErrorCheck(String test4){
-		
 		try{
 			long tester = Long.parseLong(test4);
-			
 			if(test4.length() == 10){
 				return false;
 			}
@@ -854,64 +857,4 @@ public class HealthController {
 			return true;
 		}
 	}
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//Work on or abandon...	
-	
-/*	
-	
-	private void setTime(Label clock2) {
-		
-		Calendar cal = new GregorianCalendar();
-		
-		int hour = cal.get(Calendar.HOUR);
-		int minute = cal.get(Calendar.MINUTE);
-		int second = cal.get(Calendar.SECOND);
-		int ampm = cal.get(Calendar.AM_PM);
-		String day ="";
-		
-		if(ampm == 1){
-			day = "PM";
-		}
-		else{
-			day = "AM";
-		}
-		
-		String time = hour + ":" + minute + ":" + second + " " + day;
-		
-		clock.setText(time);
-		
-		
-	}*/
-
 }

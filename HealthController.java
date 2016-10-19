@@ -1,4 +1,3 @@
-
 package healthcareLook;
 
 import java.io.EOFException;
@@ -88,9 +87,7 @@ public class HealthController {
 	@FXML
 	ImageView warningInsuranceNumber;
 	@FXML
-	ImageView warningAppointment;
-	@FXML
-	ImageView warningComplaint;
+	ImageView warningPassword;
 	@FXML
 	Button butto;
 	@FXML	
@@ -140,6 +137,8 @@ public class HealthController {
 	@FXML
 	TextField insuName;
 	@FXML
+	TextField patientPassword;
+	@FXML
 	RadioButton genMale;
 	@FXML
 	RadioButton genFemale;
@@ -160,8 +159,6 @@ public class HealthController {
 	RadioButton immuTransfer;
 	@FXML
 	DatePicker dob;
-	@FXML
-	DatePicker appointment;
 	//ToggleGroup for the RadioButtons
 	ToggleGroup gender = new ToggleGroup();
 	ToggleGroup insurance = new ToggleGroup();
@@ -237,6 +234,7 @@ public class HealthController {
 		//I wrap the text around so it does not continue in one line and go on as "..."
 		saveResult.setWrapText(true);
 		saveResult.setFont(Font.font(null,FontWeight.BOLD, 18));
+		
 		
 		
 		if(!inPriv.isSelected()){
@@ -324,7 +322,7 @@ public class HealthController {
 								
 					}
 				else{
-					warningfName.setVisible(false);
+					warninglName.setVisible(false);
 				}
 			if(ssText.getText().trim().equals("")){
 				warningSsn.setVisible(true);
@@ -355,7 +353,7 @@ public class HealthController {
 					saveCheck = false;
 				}
 				else{
-					warningfName.setVisible(false);
+					warningSsn.setVisible(false);
 				}
 			if(addText.getText().trim().equals("")){
 				warningAddress.setVisible(true);
@@ -371,7 +369,7 @@ public class HealthController {
 						saveCheck = false;
 				}
 				else{
-					warningfName.setVisible(false);
+					warningAddress.setVisible(false);
 				}
 			
 			if(cityText.getText().trim().equals("")){
@@ -389,7 +387,7 @@ public class HealthController {
 							
 				}
 			else{
-				warningfName.setVisible(false);
+				warningCity.setVisible(false);
 			}
 			if(zipText.getText().trim().equals("")){
 				warningZip.setVisible(true);
@@ -406,7 +404,7 @@ public class HealthController {
 							
 				}
 			else{
-				warningfName.setVisible(false);
+				warningZip.setVisible(false);
 			}
 			if(countyText.getText().trim().equals("")){
 				warningCounty.setVisible(true);
@@ -423,7 +421,7 @@ public class HealthController {
 							
 				}
 			else{
-				warningfName.setVisible(false);
+				warningCounty.setVisible(false);
 			}
 			if(phoneText.getText().trim().equals("")){
 				warningPhone.setVisible(true);
@@ -454,7 +452,7 @@ public class HealthController {
 					saveCheck = false;
 				}
 				else{
-					warningfName.setVisible(false);
+					warningPhone.setVisible(false);
 				}
 			isDobError=false;
 				try{
@@ -478,7 +476,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
+				warningDob.setVisible(false);
 			}
 			if(!(needUpdate.isSelected()||upToDate.isSelected())){
 				warningImmunizationStatus.setVisible(true);
@@ -487,7 +485,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
+				warningDob.setVisible(false);
 			}
 			if(emergencyText.getText().trim().equals("")){
 				warningEmergencyContact.setVisible(true);
@@ -503,7 +501,7 @@ public class HealthController {
 							saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
+				warningEmergencyContact.setVisible(false);
 			}
 			if(relText.getText().trim().equals("")){
 				warningRelationship.setVisible(true);
@@ -519,7 +517,7 @@ public class HealthController {
 							saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
+				warningRelationship.setVisible(false);
 			}
 			if(emeConText.getText().trim().equals("")){
 				warningEmergencyContactNumber.setVisible(true);
@@ -549,7 +547,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
+				warningEmergencyContactNumber.setVisible(false);
 			}
 			if(!(inAid.isSelected()||inCare.isSelected()||inPriv.isSelected())){
 				warningInsuranceButton.setVisible(true);
@@ -558,44 +556,34 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else if(inPriv.isSelected() && insuName.getText().trim().equals("")){
+				warningInsuranceButton.setVisible(false);
 				warningInsuranceName.setVisible(true);
 				errorTool.install(warningInsuranceName, new Tooltip("Please enter Insurance name."));
 				quitClick =0;
 				saveCheck = false;
 			}
 			else if(medicareText.getText().trim().equals("")){
+				warningInsuranceButton.setVisible(false);
 				warningInsuranceNumber.setVisible(true);
 				errorTool.install(warningInsuranceNumber, new Tooltip("Please enter Insurance Number."));
 				quitClick =0;
 				saveCheck = false;
 			}
 			else{
-				warningfName.setVisible(false);
-			}isAppointmentError=false;
-			try{
-				if(appointment.getValue().equals("")){
-				}				
+				warningInsuranceNumber.setVisible(false);
+				warningInsuranceButton.setVisible(false);
 			}
-			catch(NullPointerException ex){
-				warningAppointment.setVisible(true);
-				appointment.setPromptText(todayDate);
-				errorTool.install(warningAppointment, new Tooltip("Please select today if there is no appointment"));
-				quitClick =0;
-				saveCheck = false;
-				isAppointmentError=true;
-			}
-			if(!isAppointmentError){
-				warningAppointment.setVisible(false);
-			}
-			if(complaint.getText().trim().equals("")){
-				warningComplaint.setVisible(true);
-				errorTool.install(warningComplaint, new Tooltip("Please enter the patients complaint."));
+			
+			if(patientPassword.getText().trim().equals("") ||!(patientPassword.getText().trim().length() >= 6 || patientPassword.getText().trim().length() <= 10) || !(getLetterCount(patientPassword.getText().trim()) || getNonLetterCount(patientPassword.getText().trim()))){
+				warningPassword.setVisible(true);
+				errorTool.install(warningPassword, new Tooltip("Password must be 6-10 characters long and include a number and symbol."));
 				saveResult.setText("");
 				quitClick =0;
 				saveCheck = false;
+			
 			}
 			else{
-				warningfName.setVisible(false);
+				warningPassword.setVisible(false);
 			}
 			/* I save all the data into strings to better place them into 
 			 * a file for saving later.
@@ -627,7 +615,6 @@ public class HealthController {
 						insuranceNameString = "";
 					}
 					insuranceNumberString = medicareText.getText().toString();
-					appointString = appointment.getValue().toString();
 					
 					if(isNotRetrieved){
 					while(true){		
@@ -640,7 +627,7 @@ public class HealthController {
 					}					
 					pList.put(id, new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
 							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +"\n" + insuranceNameString + "\n" +insuranceNumberString),
-							appointString,comp, Integer.toString(id)));										
+							Integer.toString(id)));										
 					saveResult.setTextFill(Color.BLACK);				
 					quitClick =0;					
 					/* I save the information into this file using a try catch method in order to catch the
@@ -665,77 +652,7 @@ public class HealthController {
 		/* If the person clicks the find button they will open another window made
 		 * for finding a patient
 		 */
-		find.setOnAction(e->{
-			id = PatientFinderMain.startAgain();		
-			System.out.println("Id retrieved: " + id);
-			try{
-				FileInputStream fileinput = new FileInputStream("patient.txt");
-				ObjectInputStream file2input= new ObjectInputStream(fileinput);
-				try{
-					if(pList.isEmpty()){					
-					pList = (HashMap) file2input.readObject();				
-					}			
-				}
-				catch(EOFException ex1){					
-				}			
-				file2input.close();
-			}
-			catch(Exception ex){
-				System.out.println("Gotta make new file!");
-			}		
-		try{		
-			fNameText.setText(pList.get(id).getfName());
-			lNameText.setText(pList.get(id).getlName());
-			ssText.setText(pList.get(id).getSsn());
-			addText.setText(pList.get(id).getAddress());
-			cityText.setText(pList.get(id).getCity());
-			zipText.setText(pList.get(id).getZipCode());
-			countyText.setText(pList.get(id).getCounty());
-			phoneText.setText(pList.get(id).getPhone());	
-			//Convert the date of birth into LocalDate to store in the DatePicker
-			dob.setValue(LocalDate.parse(pList.get(id).getDateOfBirth()));
-			//It checks of the string says Male or Female and selects the correct gender.
-			if(pList.get(id).getGender().equals("Male")){
-			genMale.setSelected(true);
-			}else if(pList.get(id).getGender().equals("Female")){
-			genFemale.setSelected(true);
-			}else{
-			otherGen.setSelected(true);
-			}
-			//I do the same thing I did for gender for immunization status
-			if(pList.get(id).getImmunizationStatus().equals("Up To Date")){
-			upToDate.setSelected(true);
-			}else{
-			needUpdate.setSelected(true);
-			}
-			emeConText.setText(pList.get(id).getEmergencyContactNumber());
-			relText.setText(pList.get(id).getRelationship());
-			emergencyText.setText(pList.get(id).getEmergencyContact());
-			//I split the String for the insurance information into multiple Strings separated by "\n"
-			insuranceSplit = pList.get(id).insurance.split("\n");
-			//I check which is selected. Once again it is the same as the gender checker above.
-			if(insuranceSplit[0].equals("Medicaid")){
-			inAid.setSelected(true);
-			}else if(insuranceSplit[0].equals("Medicare")){
-			inCare.setSelected(true);
-			}else{
-			inPriv.setSelected(true);
-			}
-			insuName.setText(insuranceSplit[1]);
-			medicareText.setText(insuranceSplit[2]);
-			appointment.setValue(null);
-			/*I delete the elements inside the insuranceSplit array in order
-			 * to make sure the array is empty for the next patient retrieval.
-			 */
-			insuranceSplit = null;
-			//I set the isNotRetrieved to false because this data was retrieved from a file
-			isNotRetrieved = false;		
-			System.out.println(pList.get(id).toString());
-			}
-		catch(NullPointerException nullex){
-			System.out.println("Nope!");
-		}				
-		});			
+
 		/* IF the person clicks the close button the program will close. Any data
 		 * not saved will be lost.
 		 */
@@ -773,8 +690,7 @@ public class HealthController {
 			inPriv.setSelected(false);
 			insuName.clear();
 			medicareText.clear();
-			complaint.clear();
-			appointment.setValue(null);
+			patientPassword.clear();
 			saveResult.setText("");
 			saveResult.setTextFill(Color.BLACK);		
 		});	
@@ -855,4 +771,5 @@ public class HealthController {
 			return true;
 		}
 	}
+
 }

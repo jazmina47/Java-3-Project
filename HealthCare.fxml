@@ -25,16 +25,10 @@
                      </font>
                   </Label>
                   <TextField fx:id="fNameText" layoutX="95.0" layoutY="177.0" />
-                  <TextField fx:id="complaint" layoutX="131.0" layoutY="655.0" prefHeight="91.0" prefWidth="225.0" />
                   <TextField fx:id="lNameText" layoutX="95.0" layoutY="230.0" />
                   <Label fx:id="fNameLabel" layoutX="14.0" layoutY="177.0" prefHeight="25.0" prefWidth="81.0" text="First Name">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="compainLabel" layoutX="28.0" layoutY="688.0" prefHeight="25.0" prefWidth="81.0" text="Complaint">
-                     <font>
-                        <Font name="Times New Roman Bold" size="16.0" />
                      </font>
                   </Label>
                   <Label fx:id="lNameLabel" layoutX="14.0" layoutY="230.0" prefHeight="25.0" prefWidth="81.0" text="Last Name">
@@ -42,23 +36,18 @@
                         <Font name="Times New Roman Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="butto" layoutX="303.0" layoutY="763.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="149.0" text="Save Information">
+                  <Button fx:id="butto" layoutX="168.0" layoutY="684.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="149.0" text="Save Information">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="quit" layoutX="471.0" layoutY="768.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="40.0" prefWidth="74.0" text="Close">
+                  <Button fx:id="quit" layoutX="347.0" layoutY="689.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="40.0" prefWidth="74.0" text="Close">
                      <font>
                         <Font name="Times New Roman Bold" size="16.0" />
                      </font>
                   </Button>
                   <Label fx:id="lError" layoutX="260.0" layoutY="230.0" prefHeight="25.0" prefWidth="234.0" />
                   <Label fx:id="saveResult" layoutX="402.0" layoutY="633.0" prefHeight="111.0" prefWidth="212.0" />
-                  <Button fx:id="find" layoutX="151.0" layoutY="763.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="135.0" text="Find Patient">
-                     <font>
-                        <Font name="Times New Roman Bold" size="15.0" />
-                     </font>
-                  </Button>
                   <Label fx:id="lNameLabel1" layoutX="11.0" layoutY="282.0" prefHeight="25.0" prefWidth="81.0" text="SSN#">
                      <font>
                         <Font name="Times New Roman Bold" size="16.0" />
@@ -130,12 +119,6 @@
                   <TextField fx:id="emeConText" layoutX="508.0" layoutY="378.0" />
                   <TextField fx:id="medicareText" layoutX="459.0" layoutY="547.0" />
                   <DatePicker fx:id="dob" layoutX="81.0" layoutY="559.0" />
-                  <DatePicker fx:id="appointment" layoutX="483.0" layoutY="585.0" prefHeight="25.0" prefWidth="281.0" />
-                  <Label fx:id="lNameLabel11" layoutX="337.0" layoutY="585.0" prefHeight="25.0" prefWidth="135.0" text="Appointment Date">
-                     <font>
-                        <Font name="Times New Roman Bold" size="16.0" />
-                     </font>
-                  </Label>
                   <RadioButton fx:id="genMale" layoutX="369.0" layoutY="180.0" mnemonicParsing="false" onAction="#Intialize" text="Male">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
@@ -187,7 +170,7 @@
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="clear" layoutX="32.0" layoutY="763.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="99.0" text="Clear">
+                  <Button fx:id="clear" layoutX="32.0" layoutY="684.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="99.0" text="Clear">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
@@ -242,11 +225,6 @@
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="warningAppointment" fitHeight="39.0" fitWidth="42.0" layoutX="783.0" layoutY="578.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
-                     </image>
-                  </ImageView>
                   <ImageView fx:id="warningCity" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="371.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
@@ -282,7 +260,13 @@
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="warningComplaint" fitHeight="39.0" fitWidth="42.0" layoutX="362.0" layoutY="681.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <Label fx:id="lNameLabel31" layoutY="608.0" prefHeight="25.0" prefWidth="81.0" text="Password">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="patientPassword" layoutX="94.0" layoutY="608.0" prefHeight="25.0" prefWidth="148.0" />
+                  <ImageView fx:id="warningPassword" fitHeight="39.0" fitWidth="42.0" layoutX="254.0" layoutY="601.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
                      </image>

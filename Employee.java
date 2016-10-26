@@ -16,8 +16,8 @@ public class Employee extends Person implements Serializable{
 
 	public Employee(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
 			String phone, String dateOfBirth, String gender, String id, String position, String speciality,
-			String salary) {
-		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, id);
+			String salary, String userName, String passWord) {
+		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, userName, passWord, id);
 		this.position = position;
 		this.speciality = speciality;
 		this.salary = salary;

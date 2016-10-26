@@ -1,7 +1,5 @@
-# Java-3-Project
+Java-3-Project
 Health Clinic Project
-
-<p>
 
 To create the database on your local machine:
 1.) save the healthclinic_db.sql file in the folder you want. 
@@ -17,4 +15,4 @@ run the following in the mysql shell:
 > source (your_file_path_here)\healthclinic_db.sql
 
 This should create the database with the tables and insert statements described in this sql file
-</p>
+

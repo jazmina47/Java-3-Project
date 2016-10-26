@@ -25,15 +25,15 @@ public class Patient extends Person implements Serializable{
 	public Patient(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
 			String phone, String dateOfBirth, String gender, String id, String immunizationStatus,
 			String emergencyContact, String relationship, String emergencyContactNumber, String insurance,
-			String appointmentDate, String complaint) {
-		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, id);
+			String userName, String passWord,
+			String id) {
+		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, userName, passWord, id);
 		this.immunizationStatus = immunizationStatus;
 		this.emergencyContact = emergencyContact;
 		this.relationship = relationship;
 		this.emergencyContactNumber = emergencyContactNumber;
 		this.insurance = insurance;
-		this.appointmentDate = appointmentDate;
-		this.complaint = complaint;
+		
 	}
 
 

@@ -1,10 +1,10 @@
 # Java-3-Project
 Health Clinic Project
 
-<health clinic project README description goes here>
+<p>
 
 To create the database on your local machine:
-1.) save this file in the folder you want. 
+1.) save the healthclinic_db.sql file in the folder you want. 
 2.) Go in to the command line and 'cd' into the folder where you saved the file.
 3.) run the 'pwd' command to get the path of where the file is located to use as the source of the database. 
 $ pwd
@@ -17,3 +17,4 @@ run the following in the mysql shell:
 > source (your_file_path_here)\healthclinic_db.sql
 
 This should create the database with the tables and insert statements described in this sql file
+</p>

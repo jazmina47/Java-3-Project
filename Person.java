@@ -12,6 +12,8 @@ public class Person {
 	String phone;
 	String dateOfBirth;
 	String gender;
+	String userName;
+	String passWord;
 	String id;
 	
 	public Person(){
@@ -20,7 +22,7 @@ public class Person {
 	
 
 	public Person(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
-			String phone, String dateOfBirth, String gender, String id) {
+			String phone, String dateOfBirth, String gender, String userName, String passWord, String id) {
 		super();
 		this.fName = fName;
 		this.lName = lName;
@@ -32,6 +34,8 @@ public class Person {
 		this.phone = phone;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
+		this.userName = userName;
+		this.passWord = passWord;
 		this.id = id;
 	}
 
@@ -118,15 +122,28 @@ public class Person {
 	
 
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
 	public String getId() {
 		return id;
 	}
-
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 
 	
 }

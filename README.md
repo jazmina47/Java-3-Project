@@ -34,18 +34,23 @@ The application will need to have programs that capture and manipulate data of t
   - Value Added : something not listed above 
 
 
-#### Database creation 
-  To create the database on your local machine:
-  * Save the healthclinic_db.sql file in the folder you want. 
-  * Go in to the command line and `cd` into the folder where you saved the file.
+#### Database Creation 
+  To create the database on your local machine (using **mySQL**):
+  
+  * Save the healthclinic_db.sql file in the folder you want.  
+  * Go in to the command line and `cd` into the folder where you saved the file. 
   * Run the `pwd` command to get the path of where the file is located to use as the source of the database. 
 ```
 $ pwd
 ```
-Example: In macOS my output is this when I used `pwd`: /Users/jazmina/CSC_Java3/Workspace_JAVA3_Fall2016/Java-3-Project
+ * Example:
+   - In macOS my output is this when I used `pwd`:
+   ```
+   /Users/jazmina/CSC_Java3/Workspace_JAVA3_Fall2016/Java-3-Project
+   ```
   
-  * Copy this file path. (when in the mysql shell, paste path, then add healthclinic_db.sql to the end of the path)            
-run the following in the mysql shell:
+ * Copy this file path. (when in the **mysql** shell, paste path, then add healthclinic_db.sql to the end of the path)            
+run the following in the **mysql** shell:
 ``` 
 > create database healthclinic_db;
 > use healthclinic_db;

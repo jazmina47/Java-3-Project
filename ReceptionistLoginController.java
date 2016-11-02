@@ -62,7 +62,7 @@ public class ReceptionistLoginController implements Initializable{
 				errortip.install(errorImage, new Tooltip("Please enter your staff ID"));
 			}
 			//this will check if the staff id exists in the database.
-			else if(DatabaseWork.IDCheckStaff(staffId.getText().trim())){
+			else if(DatabaseWork..CheckLoginInformation(staffId.getText().trim(), staffPassword.getText().trim())){
 				
 			
 				

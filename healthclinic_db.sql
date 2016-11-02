@@ -12,12 +12,12 @@ CREATE TABLE PATIENT (
 	P_PASSWORD varchar(20) not null,
 	F_NAME varchar(25) not null,
 	L_NAME varchar(25) not null,
-	SSN char(9) not null,
+	SSN	varchar(9) not null,
 	ADDRESS varchar(30),
 	ADDR_CITY varchar(20),
 	ADDR_ZIP varchar(10),
 	ADDR_COUNTY varchar(20),
-	PHONE_NUM varchar(10),
+	PHONE_NUM char(10),
 	DOB varchar(20),
 	GENDER varchar(20),
 	IMMUN_STATUS varchar(15),
@@ -99,10 +99,10 @@ CREATE TABLE EMPLOYEE (
 	PASSWORD varchar(25) not null,
 	FNAME varchar(25) not null,
 	LNAME varchar(25) not null,
-	SSN char(9) not null,
+	SSN varchar(9) not null,
 	DOB varchar(20),
 	GENDER varchar(20),
-	TITLE varchar(45), /* POSITION in clinic: doctor, nurse, secretary, administrator */
+	TITLE varchar(45), /* POSITION in clinic: Doctor, Nurse, Receptionist, Administrator */
   	SPECIALTY varchar(45),
   	SALARY varchar(10),
 
@@ -110,4 +110,4 @@ CREATE TABLE EMPLOYEE (
 );
 
 INSERT INTO EMPLOYEE (EMP_ID, PASSWORD, FNAME, LNAME, SSN, DOB, GENDER, TITLE, SPECIALTY, SALARY) 
-VALUES ('10001', 'emp01', 'David', 'Cook', '345985100', '04-Mar-1980', 'Male', 'Secretary', 'Front-desk', '$24,000');
+VALUES ('10001', 'emp01', 'David', 'Cook', '345985100', '04-Mar-1980', 'Male', 'Receptionist', 'Front-desk', '$24,000');

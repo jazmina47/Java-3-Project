@@ -17,7 +17,7 @@ public class SecretaryMenuWindow {
 	public static void startSecretaryWindow() {
 		
 		FXMLLoader loadMain = new FXMLLoader();
-		loadMain.setLocation(MainMenu.class.getResource("HealthCreateStaff.fxml"));
+		loadMain.setLocation(MainMenu.class.getResource("SecretaryMenu.fxml"));
 		try{
 			anchCreate = (AnchorPane) loadMain.load();
 		

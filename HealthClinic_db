@@ -1,0 +1,42 @@
+//This is just an example of proof that it is connected to databases
+//and you can show the output
+
+
+
+package health_care_final_project;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class HealthClinic_db {
+
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+		// Load the JDBC driver
+				Class.forName("com.mysql.jdbc.Driver");
+				System.out.println("Driver loaded");
+				
+				//Connect to your local host mysql
+				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/healthclinic_db", "root", "password");
+				
+				Statement statement = connection.createStatement();
+				
+				
+				ResultSet resultSet = statement.executeQuery("select * from patient ");
+				
+				
+				//Iterate through the result set
+				while (resultSet.next())
+		            System.out.println(resultSet.getString(1) + "\t" + resultSet.getString(2) + "\t" + resultSet.getString(3)+"\t" + resultSet.getString(4)+"\t" + resultSet.getString(5)+"\t" + resultSet.getString(6)+"\t" + resultSet.getString(7)+"\t" + resultSet.getString(8)+"\t" + resultSet.getString(9)
+		            +"\t" + resultSet.getString(10)+"\t" + resultSet.getString(11)+ "\t" +resultSet.getString(12)+"\t" + resultSet.getString(13)+"\t" + resultSet.getString(15)
+		            +"\t" + resultSet.getString(16)+"\t" + resultSet.getString(17)+"\t" + resultSet.getString(18)+"\t" + resultSet.getString(19)+"\t" + resultSet.getString(20));
+				
+				
+				//Close the connection
+				connection.close();
+				
+	}
+
+}

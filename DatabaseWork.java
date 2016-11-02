@@ -30,7 +30,7 @@ public class DatabaseWork {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
+				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
 				sqlState = conn.createStatement();
 				
 				String command = "Select emp_id from employee where emp_id = '" + Integer.parseInt(id) +"'";
@@ -60,7 +60,7 @@ public class DatabaseWork {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
+				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
 				sqlState = conn.createStatement();
 				
 				String command = "Select * from employee where emp_id = '" + Integer.parseInt(id) +"'";
@@ -93,7 +93,7 @@ public static String CheckForStaffPosition(String id){
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 
-			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
 			sqlState = conn.createStatement();
 			
 			String command = "Select title from employee where emp_id = '" + Integer.parseInt(id) +"'";
@@ -122,7 +122,7 @@ public static boolean CheckLoginInformation(String id, String pass) {
 	try{
 		Class.forName("com.mysql.jdbc.Driver");
 
-		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
+		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
 		sqlState = conn.createStatement();
 		
 		String command = "Select Specialty from employee where emp_id = '" + Integer.parseInt(id) +"' and password = '" + pass + "'";

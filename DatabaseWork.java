@@ -30,10 +30,10 @@ public class DatabaseWork {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
+				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
 				sqlState = conn.createStatement();
 				
-				String command = "Select emp_id from employee where staff_id = '" + Integer.parseInt(id) +"'";
+				String command = "Select emp_id from employee where emp_id = '" + Integer.parseInt(id) +"'";
 				
 				rows = sqlState.executeQuery(command);
 				//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
@@ -60,10 +60,10 @@ public class DatabaseWork {
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
 	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
+				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
 				sqlState = conn.createStatement();
 				
-				String command = "Select * from employee where staff_id = '" + Integer.parseInt(id) +"'";
+				String command = "Select * from employee where emp_id = '" + Integer.parseInt(id) +"'";
 				
 				rows = sqlState.executeQuery(command);
 				//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
@@ -93,14 +93,15 @@ public static String CheckForStaffPosition(String id){
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 
-			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
 			sqlState = conn.createStatement();
 			
-			String command = "Select Specialty from employee where staff_id = '" + Integer.parseInt(id) +"'";
+			String command = "Select title from employee where emp_id = '" + Integer.parseInt(id) +"'";
 			
 			rows = sqlState.executeQuery(command);
 			//I return the position of the employer. This position can be a doctor, or receptionist.
 			if(rows.next()){
+				System.out.println(rows.getString(1));
 				return rows.getString(1);
 			}
 
@@ -117,4 +118,31 @@ public static String CheckForStaffPosition(String id){
 		
 		
 	}
+public static boolean CheckLoginInformation(String id, String pass) {
+	try{
+		Class.forName("com.mysql.jdbc.Driver");
+
+		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "Agemodel3!" );
+		sqlState = conn.createStatement();
+		
+		String command = "Select Specialty from employee where emp_id = '" + Integer.parseInt(id) +"' and password = '" + pass + "'";
+		
+		rows = sqlState.executeQuery(command);
+		//I return the position of the employer. This position can be a doctor, or receptionist.
+		if(rows.next()){
+			return true;
+		}
+
+		
+	}
+	catch(SQLException ex){
+		System.out.println("SQLException : " +ex.getMessage());
+		System.out.println("VendorError : " +ex.getErrorCode());
+	}
+	catch(ClassNotFoundException e){
+		e.printStackTrace();
+	}
+	
+	return false;
+}
 }

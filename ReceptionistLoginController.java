@@ -71,7 +71,7 @@ public class ReceptionistLoginController implements Initializable{
 				// an admin window.
 				
 				//if the person is a receptionist this will tell them to log in from the receptionist window.
-				if(DatabaseWork.CheckForStaffPosition(staffId.getText().trim()).equals("Secretary")){
+				if(DatabaseWork.CheckForStaffPosition(staffId.getText().trim()).equals("Receptionist")){
 					testAlert.setAlertType(AlertType.WARNING);
 					testAlert.setTitle("Staff Login Result");
 					testAlert.setHeaderText("You are logged in");

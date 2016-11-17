@@ -79,8 +79,8 @@ CREATE TABLE PATIENT_CONTACT_INFO (
 	ADDR_COUNTY varchar(20),
 	PHONE_NUM char(10),
 	FOREIGN KEY (PATIENT_ID) reference (PATIENT),
-	FOREIGN KEY	(FNAME) reference (PATIENT),
-	FOREIGN KEY (LNAME) reference (PATIENT)
+	FOREIGN KEY	(FNAME) references (PATIENT),
+	FOREIGN KEY (LNAME) references (PATIENT)
 );
 
 INSERT INTO PATIENT_CONTACT_INFO (PATIENT_ID, F_NAME, L_NAME, ADDRESS, ADDR_CITY, ADDR_ZIP, ADDR_COUNTY, PHONE_NUM)
@@ -111,3 +111,65 @@ CREATE TABLE EMPLOYEE (
 
 INSERT INTO EMPLOYEE (EMP_ID, PASSWORD, FNAME, LNAME, SSN, DOB, GENDER, TITLE, SPECIALTY, SALARY) 
 VALUES ('10001', 'emp01', 'David', 'Cook', '345985100', '04-Mar-1980', 'Male', 'Receptionist', 'Front-desk', '$24,000');
+
+
+-- -----------------------------------------------------
+-- Table `healthclinic_db`.`APPOINTMENTS`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS APPOINTMENTS;
+
+CREATE TABLE APPOINTMENTS (
+	APPT_ID varchar(5) not null AUTO_INCREMENT,
+	fkPATIENT_ID varchar(25),
+	fkEMP_ID varchar(25),
+	APPT_DATE varchar(15),
+	APPT_TIME varchar(15),
+	COMPLAINT varchar(100),
+
+	CONSTRAINT pkAPPT_ID PRIMARY KEY (APPT_ID),
+	CONSTRAINT fkPATIENT_ID FOREIGN KEY (fkPATIENT_ID) REFERENCES PATIENT(PATIENT_ID),
+	CONSTRAINT fkEMP_ID FOREIGN KEY (fkEMP_ID) REFERENCES EMPLOYEE(EMP_ID)
+);
+
+-- -----------------------------------------------------
+-- Table `healthclinic_db`.`BILLING`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS BILLING;
+
+CREATE TABLE BILLING (
+	BILL_ID varchar(25),
+	BILL_AMOUNT varchar(25),
+	fkPATIENT_ID varchar(25),
+
+
+	CONSTRAINT pkBILL_ID PRIMARY KEY (BILL_ID),
+	CONSTRAINT fkPATIENT_ID FOREIGN KEY (fkPATIENT_ID) REFERENCES PATIENT(PATIENT_ID)
+);
+
+-- -----------------------------------------------------
+-- Table `healthclinic_db`.`DIAGNOSIS`
+-- -----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

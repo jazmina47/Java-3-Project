@@ -6,17 +6,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Date;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -34,11 +41,11 @@ import javafx.scene.text.FontWeight;
  * 
  */
 
-/*TEST SAVING AND LOADING OF DATA!
- *
+/*
+ *NEEDS TO BE CLEANED!
  *
  */
-public class HealthController {	
+public class HealthController implements Initializable{	
 	//I create variables for labels, buttons, textfields, RadioButtons, and strings
 	@FXML
 	Label fNameLabel;
@@ -50,8 +57,6 @@ public class HealthController {
 	Label insuranceNameLabel;
 	@FXML
 	Label diagLabel;
-	@FXML
-	Label saveResult;
 	@FXML
 	ImageView warningGender;
 	@FXML
@@ -171,9 +176,13 @@ public class HealthController {
 	boolean isDobError=false;
 	boolean saveCheck = true;
 	
-	//This is to check if the data was retrieved from a file or not, so you do not give the person a new ID.
-	//This will also override the past data stored.
-	boolean isNotRetrieved = true;
+	
+	Alert quitAlert = new Alert(AlertType.CONFIRMATION);
+	Alert dataAlert = new Alert(AlertType.INFORMATION);
+	Alert warnAlert = new Alert(AlertType.WARNING);
+	Optional<ButtonType> result;
+	
+
 	
 	//This is for the quit button, so you can get a warning and a confirm message should you wish to
 	//quit the application.
@@ -184,8 +193,6 @@ public class HealthController {
 	 * and for storing employee information.
 	 */
 	
-	HashMap<Integer,Patient> pList = new HashMap<Integer,Patient>();
-	HashMap<Integer,Employee> sList = new HashMap<Integer,Employee>();
 	
 	//The multiple strings i will need to store inputs for patient information.
 	
@@ -196,10 +203,10 @@ public class HealthController {
 
 	//I create a tooltip.
 	Tooltip errorTool;
+	Patient newPatient;
 	
 	//id and idDouble is to generate a random id and make it integer
-	int id;
-	Double idDouble;
+
 	//This is for setting the date to todays date.
 	Date date = new Date();
 	Calendar today = new GregorianCalendar();
@@ -215,37 +222,88 @@ public class HealthController {
 	
 	String[] insuranceSplit;
 
-
-	@FXML
-	public void Intialize(){
-
-		genMale.setToggleGroup(gender);
-		genFemale.setToggleGroup(gender);
-		inPriv.setToggleGroup(insurance);
-		inAid.setToggleGroup(insurance);
-		inCare.setToggleGroup(insurance);
-		otherGen.setToggleGroup(gender);
-		needUpdate.setToggleGroup(immuStatus);
-		upToDate.setToggleGroup(immuStatus);
+		/* This check is for when all I want
+		 * is letters and no numbers or symbols.
+		 * Mostly used for names.
+		 * The way this works is that we make a pattern listing everything that is not between and including A-Z and a-z
+		 * This would exclude symbols and numbers
+		 * Matcher puts the String that we send to it against the pattern in an attempt to find any matches, should it find
+		 * one it will save the last match. the find method returns a boolean true if there was a match and false if there was not
+		 * and I return the true or false.
+		 */	
+		public boolean getNonLetterCount(String s) {	
+		     Pattern p = Pattern.compile("[^A-Za-z]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+		     return b;
+		 }
+		//This check is for when I do not want letters or symbols. 
+		public boolean getLetterCount(String s) {	
+		     Pattern p = Pattern.compile("[^0-9]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+		     return b;
+		 }
+		//This check is for when I do not want symbols.
+		public boolean getSymbolCount(String s) {	
+		     Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+		     return b;
+		 }
+		//This is for Address, which can have spaces.
+		public boolean getAddressCount(String s) {	
+		     Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
+		     Matcher m = p.matcher(s);
+		     boolean b = m.find();
+		     return b;
+		 }
+	/* this check is for making sure
+	 * the data received is just numbers.
+	 * If the person adds a letter it will
+	 * throw a NumberFormatException which returns true
+	 * and if the length of the string is not 9
+	 * the try returns true. If everything is ok
+	 * then the try returns false.
+	 */
+	//Change The Names.
+	public boolean ssnErrorCheck(String test3){
+		try{
+			int tester = Integer.parseInt(test3);	
+			if(test3.length() == 9){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		catch(NumberFormatException ex){
+			return true;
+		}
+	}
+	/* this check is for numbers with 10+ values like phone 
+	 * numbers. Same as ssnErrorCheck.
+	 */
+	public boolean phoneErrorCheck(String test4){
+		try{
+			long tester = Long.parseLong(test4);
+			if(test4.length() == 10){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		catch(NumberFormatException ex){
+			return true;
+		}
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 		
+		
+
 		todayDate = format.format(date);
-
-		/* this is for making sure the save to the file is correct*/
-		//I wrap the text around so it does not continue in one line and go on as "..."
-		saveResult.setWrapText(true);
-		saveResult.setFont(Font.font(null,FontWeight.BOLD, 18));
-		
-		
-		
-		if(!inPriv.isSelected()){
-			insuName.setVisible(false);
-			insuranceNameLabel.setVisible(false);
-		}
-		else{
-			insuName.setVisible(true);
-			insuranceNameLabel.setVisible(true);
-		}
-		
 		
 		/* If the enter button is pressed then the program
 		 * will confirm that not only all the textfields have
@@ -257,27 +315,6 @@ public class HealthController {
 		 */
 		butto.setOnAction(e ->{
 
-			try{
-				FileInputStream fileinput = new FileInputStream("patient.txt");
-				ObjectInputStream file2input= new ObjectInputStream(fileinput);
-				try{
-					if(pList.isEmpty()){
-						
-					pList = (HashMap) file2input.readObject();
-					
-					}
-				
-				}
-				catch(EOFException ex1){
-					
-				}
-
-				
-				file2input.close();
-			}
-			catch(Exception ex){
-				System.out.println("Gotta make new file!");
-			}
 			
 			/*This code allows for the error test to be "reset" each time
 			 * you click the save information button.
@@ -476,7 +513,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else{
-				warningDob.setVisible(false);
+				warningGender.setVisible(false);
 			}
 			if(!(needUpdate.isSelected()||upToDate.isSelected())){
 				warningImmunizationStatus.setVisible(true);
@@ -485,7 +522,7 @@ public class HealthController {
 				saveCheck = false;
 			}
 			else{
-				warningDob.setVisible(false);
+				warningImmunizationStatus.setVisible(false);
 			}
 			if(emergencyText.getText().trim().equals("")){
 				warningEmergencyContact.setVisible(true);
@@ -574,79 +611,84 @@ public class HealthController {
 				warningInsuranceButton.setVisible(false);
 			}
 			
-			if(patientPassword.getText().trim().equals("") ||!(patientPassword.getText().trim().length() >= 6 || patientPassword.getText().trim().length() <= 10) || !(getLetterCount(patientPassword.getText().trim()) || getNonLetterCount(patientPassword.getText().trim()))){
-				warningPassword.setVisible(true);
-				errorTool.install(warningPassword, new Tooltip("Password must be 6-10 characters long and include a number and symbol."));
-				saveResult.setText("");
-				quitClick =0;
-				saveCheck = false;
-			
-			}
-			else{
-				warningPassword.setVisible(false);
-			}
 			/* I save all the data into strings to better place them into 
 			 * a file for saving later.
 			 */
 				if (saveCheck){
-					fName = fNameText.getText().toString();
-					lName = lNameText.getText().toString();
-					comp = complaint.getText().toString();
-					ssString = ssText.getText().toString();
-					addressString = addText.getText().toString();
-					cityString = cityText.getText().toString();
-					zipString = zipText.getText().toString();
-					countyString = countyText.getText().toString();
-					phoneString = phoneText.getText().toString();
-					dobString = dob.getValue().toString();
-					genderTransfer = (RadioButton)gender.getSelectedToggle();
-					genderString = genderTransfer.getText().toString();
-					immuTransfer = (RadioButton)immuStatus.getSelectedToggle();
-					immuString = immuTransfer.getText();
-					emcString = emergencyText.getText().toString();
-					relationString = relText.getText().toString();
-					ecnString = emeConText.getText().toString();
-					insuranceTransfer = (RadioButton)insurance.getSelectedToggle();
-					insuranceButtonString =insuranceTransfer.getText().toString();
+					
+					if(genMale.isSelected()){
+						genderString = "Male";
+					}
+					else if (genFemale.isSelected()){
+						genderString = "Female";
+					}
+					else{
+						genderString = "Other";
+					}
+					if(upToDate.isSelected()){
+						immuString = "Up to date";
+					}
+					else{
+						immuString = "Expired";
+					}
+					fName = fNameText.getText().toString().trim();
+					lName = lNameText.getText().toString().trim();
+					ssString = ssText.getText().toString().trim();
+					addressString = addText.getText().toString().trim();
+					cityString = cityText.getText().toString().trim();
+					zipString = zipText.getText().toString().trim();
+					countyString = countyText.getText().toString().trim();
+					phoneString = phoneText.getText().toString().trim();
+					dobString = dob.getValue().toString().trim();	
+					emcString = emergencyText.getText().toString().trim();
+					relationString = relText.getText().toString().trim();
+					ecnString = emeConText.getText().toString().trim();
 					if(inPriv.isSelected()){
+						insuranceButtonString = inPriv.getText().toString();
 						insuranceNameString = insuName.getText().toString();
 					}
 					else{
+						if(inAid.isSelected()){
+							insuranceButtonString = inAid.getText().toString();
+							insuranceNameString = "Medicaid ";
+						}
+						else if(inCare.isSelected()){
+							
+							insuranceButtonString = inCare.getText().toString();
+							insuranceNameString = "Medicare ";
+						}
 						insuranceNameString = "";
 					}
 					insuranceNumberString = medicareText.getText().toString();
 					
-					if(isNotRetrieved){
-					while(true){		
-					idDouble = Math.random() *101;
-					id = (idDouble.intValue());
-					if(!pList.containsKey(id)){
-						break;
+					
+					newPatient = new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
+							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +" " + insuranceNameString + " " +insuranceNumberString));														
+					
+				//This will save the patient and check if it has been saved successfully.
+					
+					boolean isSaved = DatabaseWork.SavePatient(newPatient);
+					if(isSaved){
+						
+						String idNumber = DatabaseWork.RetrieveIDPatient(newPatient.getSsn());
+						dataAlert.setTitle("Data Successfully Saved!");
+						dataAlert.setHeaderText(idNumber);
+						dataAlert.setContentText("Please write down and remember your id number.");
+						dataAlert.showAndWait();
+						
+						PatientInteractionWindow.startPInteraction(idNumber);
+						HealthMainClass.stageClose();
+						
 					}
+					else{
+						
+						warnAlert.setTitle("Error in saving data");
+						warnAlert.setHeaderText("Warning!");
+						warnAlert.setContentText("If you already have an account with us please log in");
+						warnAlert.showAndWait();
+						//Message box about error in saving data.
 					}
-					}					
-					pList.put(id, new Patient(fName,lName,ssString,addressString,cityString,zipString,countyString,phoneString,
-							dobString,genderString,immuString,emcString,relationString,ecnString,(insuranceButtonString +"\n" + insuranceNameString + "\n" +insuranceNumberString),
-							Integer.toString(id)));										
-					saveResult.setTextFill(Color.BLACK);				
-					quitClick =0;					
-					/* I save the information into this file using a try catch method in order to catch the
-					 * IOException should there be one.
-					 */
-					try{
-						FileOutputStream file = new FileOutputStream("patient.txt");
-						ObjectOutputStream file2= new ObjectOutputStream(file);					
-						file2.writeObject(pList);
-						file2.close();
-						file.close(); 
-						saveResult.setText("Patient number " + id +" has been saved, have a great day!");
-					}
-					catch(IOException ex){
-						ex.printStackTrace();
-					}
-					//Should the data have been retrieved the value is switched back to true so the next
-					//patient is able to get an id.
-					isNotRetrieved =true;
+					
 				}			
 		});
 		/* If the person clicks the find button they will open another window made
@@ -657,13 +699,22 @@ public class HealthController {
 		 * not saved will be lost.
 		 */
 		quit.setOnAction(e->{
-			quitClick++;
-			saveResult.setFont(Font.font(null,FontWeight.BOLD, 18));
-			saveResult.setTextFill(Color.RED);		
-			saveResult.setText("All unsaved data will be lost! Click " + "\"Close\"" + " again to proceed.");		
-			if (quitClick == 2){
-			System.exit(0);
+			//Add confirmation box
+			quitAlert.setTitle("Please Wait");
+			quitAlert.setHeaderText("Confirmation");
+			quitAlert.setContentText("Are you sure you want to quit?");
+			
+			
+			result = quitAlert.showAndWait();
+			
+			if(result.get() == ButtonType.OK){
+				
+				System.exit(-1);
 			}
+			else{
+				quitAlert.close();
+			}
+
 		});
 		/*This clears all the text in the fields.
 		 *Should be completely empty.
@@ -689,87 +740,10 @@ public class HealthController {
 			inCare.setSelected(false);
 			inPriv.setSelected(false);
 			insuName.clear();
-			medicareText.clear();
-			patientPassword.clear();
-			saveResult.setText("");
-			saveResult.setTextFill(Color.BLACK);		
+			medicareText.clear();	
 		});	
-	}	
-		/* This check is for when all I want
-		 * is letters and no numbers or symbols.
-		 * Mostly used for names.
-		 * The way this works is that we make a pattern listing everything that is not between and including A-Z and a-z
-		 * This would exclude symbols and numbers
-		 * Matcher puts the String that we send to it against the pattern in an attempt to find any matches, should it find
-		 * one it will save the last match. the find method returns a boolean true if there was a match and false if there was not
-		 * and I return the true or false.
-		 */	
-		public boolean getNonLetterCount(String s) {	
-		     Pattern p = Pattern.compile("[^A-Za-z]");
-		     Matcher m = p.matcher(s);
-		     boolean b = m.find();
-		     return b;
-		 }
-		//This check is for when I do not want letters or symbols. 
-		public boolean getLetterCount(String s) {	
-		     Pattern p = Pattern.compile("[^0-9]");
-		     Matcher m = p.matcher(s);
-		     boolean b = m.find();
-		     return b;
-		 }
-		//This check is for when I do not want symbols.
-		public boolean getSymbolCount(String s) {	
-		     Pattern p = Pattern.compile("[^A-Za-z0-9]");
-		     Matcher m = p.matcher(s);
-		     boolean b = m.find();
-		     return b;
-		 }
-		//This is for Address, which can have spaces.
-		public boolean getAddressCount(String s) {	
-		     Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
-		     Matcher m = p.matcher(s);
-		     boolean b = m.find();
-		     return b;
-		 }
-	/* this check is for making sure
-	 * the data received is just numbers.
-	 * If the person adds a letter it will
-	 * throw a NumberFormatException which returns true
-	 * and if the length of the string is not 9
-	 * the try returns true. If everything is ok
-	 * then the try returns false.
-	 */
-	//Change The Names.
-	public boolean ssnErrorCheck(String test3){
-		try{
-			int tester = Integer.parseInt(test3);	
-			if(test3.length() == 9){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-		catch(NumberFormatException ex){
-			return true;
-		}
-	}
-	/* this check is for numbers with 10+ values like phone 
-	 * numbers. Same as ssnErrorCheck.
-	 */
-	public boolean phoneErrorCheck(String test4){
-		try{
-			long tester = Long.parseLong(test4);
-			if(test4.length() == 10){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-		catch(NumberFormatException ex){
-			return true;
-		}
+		
 	}
 
 }
+

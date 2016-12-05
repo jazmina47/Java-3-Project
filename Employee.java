@@ -57,13 +57,6 @@ public class Employee extends Person implements Serializable{
 	}
 
 
-	/*public String toString(){
-		//Working on now. comment out.
-		return "Employee Information
-	}
-
-	*/
-	
 
 
 }

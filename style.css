@@ -9,3 +9,81 @@
     -fx-background-position: center center;
     
 }
+#checkin{
+	-fx-background-image: url("https://cdn3.iconfinder.com/data/icons/medical-7/512/patient_valid_invalid_hospital_woman_user-512.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#cancel{
+	-fx-background-image: url("http://www.dxemed.com/images/cancel-icon-614x460.png");
+	-fx-background-size: 120,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#setAppointment{
+	-fx-background-image: url("https://cdn3.iconfinder.com/data/icons/medical-7/512/patient_appointment_invalid_hospital_woman-512.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#createPatient{
+	-fx-background-image: url("http://www.ipgpatientadvantage.com/wp-content/uploads/patient-profile-icon.png");
+	-fx-background-size: 70,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#payBill{
+	-fx-background-image: url("https://s3-us-west-2.amazonaws.com/patient-plus/icons/payment_support_icon.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#signout{
+	-fx-background-image: url("https://www.myhealth.va.gov/documents/25286/25834/ApmntsColor-FbYbnnwQ.png/6a1ceb03-3c4f-41d5-9423-0a251cdaca55?t=1459957041992");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#receptionist{
+	-fx-background-image: url("https://d30y9cdsu7xlg0.cloudfront.net/png/259091-200.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#notes{
+	-fx-background-image: url("https://cdn4.iconfinder.com/data/icons/medical-icon-set-3/800/notebook-512.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#doctor_visit{
+	-fx-background-image: url("https://getreferralmd.com/wp-content/uploads/2016/09/icon_22912.gif");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#add_staff{
+	-fx-background-image: url("https://cdn2.iconfinder.com/data/icons/user-management/512/create-512.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#remove_staff{
+	-fx-background-image: url("https://cdn4.iconfinder.com/data/icons/hr-recruitment-management-part-3/360/user_remove_profile_delete_declined-256.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#nurse{
+	-fx-background-image: url("https://cdn0.iconfinder.com/data/icons/dental-vol-2/48/69-512.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
+#doctor{
+	-fx-background-image: url("https://d30y9cdsu7xlg0.cloudfront.net/png/23420-200.png");
+	-fx-background-size: 80,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}

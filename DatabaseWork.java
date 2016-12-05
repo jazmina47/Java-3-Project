@@ -1,14 +1,20 @@
 package healthcareLook;
 
+/*This class was made to do most of the work for the database.
+ * This means retrieving and storing data.
+ *
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DatabaseWork {
 
+	
 	static Connection conn = null;
 	static PreparedStatement prepareState= null;
 	static String command = null;
@@ -23,85 +29,588 @@ public class DatabaseWork {
 	static Employee employeeData = null;
 	static Patient patientData = null;
 	static String idNumber = null;
+	static ArrayList<Appointment> patientId = new ArrayList<Appointment>();
 	
 	
-	public static Boolean IDCheckStaff(String id){
-			
-			try{
-				Class.forName("com.mysql.jdbc.Driver");
-	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
-				sqlState = conn.createStatement();
-				
-				String command = "Select emp_id from employee where emp_id = '" + Integer.parseInt(id) +"'";
-				
-				rows = sqlState.executeQuery(command);
-				//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
-				if(rows.next()){
-					return true;
-				}
-	
-			
-			}
-			catch(SQLException ex){
-				System.out.println("SQLException : " +ex.getMessage());
-				System.out.println("VendorError : " +ex.getErrorCode());
-			}
-			catch(ClassNotFoundException e){
-				e.printStackTrace();
-			}
-			
-			
-			return false;
-		}
-	public static Employee IDStaffConfirmation(String id){
-			
-			
-			try{
-				Class.forName("com.mysql.jdbc.Driver");
-	
-				conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
-				sqlState = conn.createStatement();
-				
-				String command = "Select * from employee where emp_id = '" + Integer.parseInt(id) +"'";
-				
-				rows = sqlState.executeQuery(command);
-				//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
-				if(rows.next()){
-					System.out.print("getting patient info");
-				//	employeeData = new Employee(rows.getString(1), rows.getString(2),rows.getString(3),rows.getString(4),rows.getString(5),rows.getString(6),rows.getString(7),rows.getString(8),rows.getString(9)
-					//		,rows.getString(10),rows.getString(11),rows.getString(12),rows.getString(13));
-				}
-	
-			
-				
-			}
-			catch(SQLException ex){
-				System.out.println("SQLException : " +ex.getMessage());
-				System.out.println("VendorError : " +ex.getErrorCode());
-			}
-			catch(ClassNotFoundException e){
-				e.printStackTrace();
-			}
-			
-			return employeeData;
-			
-			
-		}
-public static String CheckForStaffPosition(String id){
+	public static Boolean IDCheckPatient(String id){
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 
-			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
 			sqlState = conn.createStatement();
 			
-			String command = "Select title from employee where emp_id = '" + Integer.parseInt(id) +"'";
+			String command = "Select patient_id from patient where patient_id = '" + id + "'";
+			
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				return true;
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	
+	public static Boolean IDCheckStaff(String id){
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select staff_id from employee where staff_id = '" + id +"'";
+			
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				return true;
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	public static Patient IDPatientConfirmation(String id){
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select * from patient where patient_id = '" + id +"'";
+			
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				patientData = new Patient(rows.getString(1), rows.getString(2),rows.getString(3),rows.getString(4),rows.getString(5),rows.getString(6),rows.getString(7),rows.getString(8),rows.getString(9)
+						,rows.getString(10),rows.getString(11),rows.getString(12),rows.getString(13),rows.getString(14),rows.getString(15));
+			}
+
+		
+			
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return patientData;
+		
+		
+	}
+	
+	public static Employee IDStaffConfirmation(String id){
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select * from employee where staff_id = '" + id +"'";
+			
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				employeeData = new Employee(rows.getString(1), rows.getString(2),rows.getString(3),rows.getString(4),rows.getString(5),rows.getString(6),rows.getString(7),rows.getString(8),rows.getString(9)
+						,rows.getString(10),rows.getString(11),rows.getString(12),rows.getString(13));
+			}
+
+		
+			
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return employeeData;
+		
+		
+	}
+	
+	public static Boolean SavePatient(Patient pat){	
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			prepareState = conn.prepareStatement("insert into patient (first_name , last_name , ssn, address, city, zip_code, county, phone, date_of_birth, gender, immunization_status, emergency_contact, emergency_contact_relationship, emergency_contact_number, insurance, patient_id) " + "values(?, ? , ?, ? , ?, ?, ? , ?, ? , ?, ?, ? , ?, ?, ?, ?)");
+			prepareState.setString(1, pat.getfName());
+			prepareState.setString(2, pat.getlName());
+			prepareState.setString(3, pat.getSsn());
+			prepareState.setString(4, pat.getAddress());
+			prepareState.setString(5, pat.getCity());
+			prepareState.setString(6, pat.getZipCode());
+			prepareState.setString(7, pat.getCounty());
+			prepareState.setString(8, pat.getPhone());
+			prepareState.setString(9, pat.getDateOfBirth());
+			prepareState.setString(10, pat.getGender());
+			prepareState.setString(11, pat.getImmunizationStatus());
+			prepareState.setString(12, pat.getEmergencyContact());
+			prepareState.setString(13, pat.getRelationship());
+			prepareState.setString(14, pat.getEmergencyContactNumber());
+			prepareState.setString(15, pat.getInsurance());
+			prepareState.setNull(16, java.sql.Types.INTEGER);
+			int add = prepareState.executeUpdate();
+
+			return true;
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+			return false;
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	public static String RetrieveIDPatient(String ssn){
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select * from patient where ssn = '" + ssn +"'";
+			
+			retreievepatient = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(retreievepatient.next()){
+				idNumber = retreievepatient.getString(16);
+			}
+
+			
+			
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return idNumber;
+	}
+	
+public static Boolean SaveStaff(Employee pat){
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			prepareState = conn.prepareStatement("insert into employee (first_name , last_name , ssn, address, city, zip_code, county, phone, date_of_birth, gender, staff_position, staff_speciality, staff_salary, staff_id) " + "values(?, ? , ?, ? , ?, ?, ? , ?, ? , ?, ?, ? , ?, ?)");
+			prepareState.setString(1, pat.getfName());
+			prepareState.setString(2, pat.getlName());
+			prepareState.setString(3, pat.getSsn());
+			prepareState.setString(4, pat.getAddress());
+			prepareState.setString(5, pat.getCity());
+			prepareState.setString(6, pat.getZipCode());
+			prepareState.setString(7, pat.getCounty());
+			prepareState.setString(8, pat.getPhone());
+			prepareState.setString(9, pat.getDateOfBirth());
+			prepareState.setString(10, pat.getGender());
+			prepareState.setString(11, pat.getPosition());
+			prepareState.setString(12, pat.getSpeciality());
+			prepareState.setString(13, pat.getSalary());
+			prepareState.setNull(14, java.sql.Types.INTEGER);
+			
+			
+			int add = prepareState.executeUpdate();
+
+			
+			return true;
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+			return false;
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+
+	public static void RemoveStaff(String id){
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Delete from employee where staff_id = '" + id +"'";
+			
+			sqlState.executeUpdate(command);
+
+			
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+
+	public static String RetrieveIDStaff(String ssn){
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select * from employee where ssn = '" + ssn +"'";
+			
+			retreievestaff = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(retreievestaff.next()){
+				idNumber = retreievestaff.getString(14);
+			}
+
+			
+			
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return idNumber;
+	}
+
+
+	public static Boolean SetAppointmentPatient(String id,String complain, String day, String doc, String time) {
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			
+			if(doc.isEmpty()){
+				prepareState = conn.prepareStatement("insert into appointment (appointment_date, appointment_time, complaint , patient_id, requested_doctor, staff_id, checkin) " + "values(?, ?, ?, ?, ?, ?, ?)");
+				prepareState.setString(1, day);
+				prepareState.setString(2, time);
+				prepareState.setString(3, complain);
+				prepareState.setString(4, id);
+				prepareState.setNull(5, java.sql.Types.VARCHAR);
+				prepareState.setNull(6, java.sql.Types.VARCHAR);
+				prepareState.setString(7, "N");
+				
+			}
+			else{
+				prepareState = conn.prepareStatement("insert into appointment (appointment_date, appointment_time, complaint, patient_id, requested_doctor, staff_id, checkin) " + "values(?, ?, ? , ?, ?, ?, ?)");
+				prepareState.setString(1, day);
+				prepareState.setString(2, time);
+				prepareState.setString(3, complain);
+				prepareState.setString(4, id);
+				prepareState.setString(5, doc);
+				prepareState.setNull(6, java.sql.Types.VARCHAR);
+				prepareState.setString(7, "N");
+				
+			}
+
+			int add = prepareState.executeUpdate();
+
+		
+			return true;
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+			return false;
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+
+
+	public static boolean CheckAvailability(String appointmentTime, String id, String appointmentDate) {
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select appointment_date, appointment_time, staff_id from appointment where appointment_date = '" + appointmentDate + "' && appointment_time = '" + appointmentTime + "' && staff_id = '" + id  + "'";
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				rows.getString(1);
+				return false;
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return true;
+		
+	}
+
+
+	public static boolean UpdateAppointment(String id, String id2, String date, String time) {
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "update appointment set staff_id = '" + id + "' where patient_id = '" + id2 +"' AND appointment_date = '" + date +"' AND appointment_time = '" + time +"'";
+			
+			int update = sqlState.executeUpdate(command);
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+			return false;
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		return true;
+		
+	}
+
+
+	public static boolean CheckAvailabilityStaff(String string, String staffID, String appointment) {
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select appointment_date, appointment_time, staff_id from appointment where appointment_date = '" + appointment + "' && appointment_time = '" + string + "' && staff_id = '" + staffID  + "'";
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				rows.getString(1);
+				return false;
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return true;
+
+	}
+
+
+	public static String CheckForStaff(String doctor) {
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			command = "select staff_id from employee where first_name = '" + doctor + "' OR last_name = '" + doctor + "'";
+
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				doctor = rows.getString(1);
+			
+				return doctor;
+			}
+
+			else{
+				doctor = null;
+				return doctor;
+			}
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+
+		
+		
+		
+		
+		
+		
+		return null;
+	}
+
+
+	public static boolean CheckAvailabilityPatient(String appointmentTime, String patID, String appointmentDate) {
+
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select appointment_date, appointment_time, patient_id from appointment where appointment_date = '" + appointmentDate + "' && appointment_time = '" + appointmentTime + "' && patient_id = '" + patID  + "'";
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				rows.getString(1);
+				return false;
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return true;
+
+	}
+
+
+	public static boolean HasAppointmentsToFile(String idNumber) {
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			sqlState2 = conn.createStatement();
+			String command = "Select appointment_date, appointment_time, patient_id from appointment where staff_id = '" + idNumber + "'";
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				patientId.add(new Appointment(rows.getString(1), rows.getString(2), rows.getString(3)));
+			}
+			
+			
+			
+			for(int i = 0; i< patientId.size(); i++){
+				String command2 = "Select appointment_date, appointment_time from payment_bill where patient_id = '" + patientId.get(i).getPatient_id() + "'";
+				rows2 = sqlState2.executeQuery(command2);
+				while(rows2.next()){
+						if(patientId.get(i).getAppointmentDate().equals(rows2.getString(1)) && patientId.get(i).getAppointmentTime().equals(rows2.getString(2))){
+	
+						}
+						else{
+							return true;
+						}
+				}
+			}
+			
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+	}
+	
+	
+	public static String CheckForStaffPosition(String id){
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select staff_position from employee where staff_id = '" + id +"'";
 			
 			rows = sqlState.executeQuery(command);
 			//I return the position of the employer. This position can be a doctor, or receptionist.
 			if(rows.next()){
-				System.out.println(rows.getString(1));
 				return rows.getString(1);
 			}
 
@@ -118,31 +627,45 @@ public static String CheckForStaffPosition(String id){
 		
 		
 	}
-public static boolean CheckLoginInformation(String id, String pass) {
-	try{
-		Class.forName("com.mysql.jdbc.Driver");
+	
+	public static boolean HasPendingBill(String id){
+		
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
 
-		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcareclinic_db?autoReconnect=true&useSSL=false","root", "" );
-		sqlState = conn.createStatement();
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select diagnosis from payment_bill where patient_id = '" + id + "' AND paid = 'N'";
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				return true;
+			}
+
 		
-		String command = "Select Specialty from employee where emp_id = '" + Integer.parseInt(id) +"' and password = '" + pass + "'";
-		
-		rows = sqlState.executeQuery(command);
-		//I return the position of the employer. This position can be a doctor, or receptionist.
-		if(rows.next()){
-			return true;
 		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+		return false;
 
 		
-	}
-	catch(SQLException ex){
-		System.out.println("SQLException : " +ex.getMessage());
-		System.out.println("VendorError : " +ex.getErrorCode());
-	}
-	catch(ClassNotFoundException e){
-		e.printStackTrace();
+		
 	}
 	
-	return false;
+	
+	
+	
+	
+	
 }
-}
+
+
+

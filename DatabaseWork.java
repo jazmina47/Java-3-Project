@@ -1,8 +1,9 @@
 package healthcareLook;
 
-/*This class was made to do most of the work for the database.
+/*This class was made to do all the work for the database.
  * This means retrieving and storing data.
- *
+ * Add way to verify if person is admin
+ * Delete Staff from admin window (would this mess with the other tables?)
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -107,6 +108,7 @@ public class DatabaseWork {
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
 			if(rows.next()){
+			//	System.out.print("getting patient info");
 				patientData = new Patient(rows.getString(1), rows.getString(2),rows.getString(3),rows.getString(4),rows.getString(5),rows.getString(6),rows.getString(7),rows.getString(8),rows.getString(9)
 						,rows.getString(10),rows.getString(11),rows.getString(12),rows.getString(13),rows.getString(14),rows.getString(15));
 			}
@@ -141,6 +143,7 @@ public class DatabaseWork {
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
 			if(rows.next()){
+				System.out.print("getting patient info");
 				employeeData = new Employee(rows.getString(1), rows.getString(2),rows.getString(3),rows.getString(4),rows.getString(5),rows.getString(6),rows.getString(7),rows.getString(8),rows.getString(9)
 						,rows.getString(10),rows.getString(11),rows.getString(12),rows.getString(13));
 			}
@@ -207,6 +210,7 @@ public class DatabaseWork {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			
+	//		System.out.println("Getting id");
 			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
 			sqlState = conn.createStatement();
 			
@@ -395,9 +399,12 @@ public static Boolean SaveStaff(Employee pat){
 			sqlState = conn.createStatement();
 			
 			String command = "Select appointment_date, appointment_time, staff_id from appointment where appointment_date = '" + appointmentDate + "' && appointment_time = '" + appointmentTime + "' && staff_id = '" + id  + "'";
+		//	System.out.println("I have the command!");
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			if(rows.next()){
+		//		System.out.println("UH OH YOU GOT PROBLEM!");
 				rows.getString(1);
 				return false;
 			}
@@ -411,6 +418,7 @@ public static Boolean SaveStaff(Employee pat){
 		catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
+	//	System.out.println("Guess there was nothing!");
 		
 		return true;
 		
@@ -457,9 +465,12 @@ public static Boolean SaveStaff(Employee pat){
 			sqlState = conn.createStatement();
 			
 			String command = "Select appointment_date, appointment_time, staff_id from appointment where appointment_date = '" + appointment + "' && appointment_time = '" + string + "' && staff_id = '" + staffID  + "'";
+	//		System.out.println("I have the command!");
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			if(rows.next()){
+		//		System.out.println("UH OH YOU GOT PROBLEM!");
 				rows.getString(1);
 				return false;
 			}
@@ -473,6 +484,7 @@ public static Boolean SaveStaff(Employee pat){
 		catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
+	//	System.out.println("Guess there was nothing!");
 		
 		return true;
 
@@ -489,9 +501,12 @@ public static Boolean SaveStaff(Employee pat){
 			
 			command = "select staff_id from employee where first_name = '" + doctor + "' OR last_name = '" + doctor + "'";
 
+	//		System.out.println("I have the command!");
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			if(rows.next()){
+	//			System.out.println("WE GOT A MATCH!!!!");
 				doctor = rows.getString(1);
 			
 				return doctor;
@@ -509,6 +524,7 @@ public static Boolean SaveStaff(Employee pat){
 		catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
+//		System.out.println("Guess I found nothing..");
 		
 
 		
@@ -530,9 +546,12 @@ public static Boolean SaveStaff(Employee pat){
 			sqlState = conn.createStatement();
 			
 			String command = "Select appointment_date, appointment_time, patient_id from appointment where appointment_date = '" + appointmentDate + "' && appointment_time = '" + appointmentTime + "' && patient_id = '" + patID  + "'";
+	//		System.out.println("I have the command!");
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			if(rows.next()){
+	//			System.out.println("UH OH YOU GOT PROBLEM!");
 				rows.getString(1);
 				return false;
 			}
@@ -546,6 +565,7 @@ public static Boolean SaveStaff(Employee pat){
 		catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
+	//	System.out.println("Guess there was nothing!");
 		
 		return true;
 
@@ -563,14 +583,17 @@ public static Boolean SaveStaff(Employee pat){
 			rows = sqlState.executeQuery(command);
 			while(rows.next()){
 				patientId.add(new Appointment(rows.getString(1), rows.getString(2), rows.getString(3)));
+	//			System.out.println("got patient id data");
 			}
 			
 			
 			
 			for(int i = 0; i< patientId.size(); i++){
 				String command2 = "Select appointment_date, appointment_time from payment_bill where patient_id = '" + patientId.get(i).getPatient_id() + "'";
+		//		System.out.println("inside for loop");
 				rows2 = sqlState2.executeQuery(command2);
 				while(rows2.next()){
+		//			System.out.println("inside while loop");
 						if(patientId.get(i).getAppointmentDate().equals(rows2.getString(1)) && patientId.get(i).getAppointmentTime().equals(rows2.getString(2))){
 	
 						}
@@ -581,6 +604,7 @@ public static Boolean SaveStaff(Employee pat){
 			}
 			
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			
 
 		
@@ -638,8 +662,10 @@ public static Boolean SaveStaff(Employee pat){
 			sqlState = conn.createStatement();
 			
 			String command = "Select diagnosis from payment_bill where patient_id = '" + id + "' AND paid = 'N'";
+	//		System.out.println("I have the command!");
 			rows = sqlState.executeQuery(command);
 			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+	//		System.out.println("Did I find something?!");
 			if(rows.next()){
 				return true;
 			}
@@ -653,6 +679,7 @@ public static Boolean SaveStaff(Employee pat){
 		catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
+//		System.out.println("Guess there was nothing!");
 		
 		return false;
 
@@ -666,6 +693,33 @@ public static Boolean SaveStaff(Employee pat){
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

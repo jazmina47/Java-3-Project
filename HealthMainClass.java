@@ -35,6 +35,10 @@ public class HealthMainClass {
 		
 	}
 	
+	public static void stageClose(){
+		primaryStage.close();
+	}
+	
 
 
 }

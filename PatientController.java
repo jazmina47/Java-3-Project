@@ -2,22 +2,38 @@ package healthcareLook;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
-public class PatientController {
+/*
+ * NO PROBLEMS...
+ * The purpose of this window is to find a patient or go to the next window
+ * which will make a new patient.
+ */
+public class PatientController implements Initializable{
 	
 	
 	@FXML
 	TextField iDFinder;
 	@FXML
-	Button clearFinder;
+	Button newPatient;
 	@FXML
 	Label ssConfirmation;
 	@FXML
@@ -27,145 +43,73 @@ public class PatientController {
 	@FXML
 	Label fNameConfirmation;
 	@FXML
-	Button quit2;
-	@FXML
 	Label confirmOrError;
 	@FXML
-	Button confirmButton;
+	Button submitPatient;
+	Optional<ButtonType> result;
+	@FXML
+	ImageView errorImage;
+	Alert testAlert = new Alert(AlertType.CONFIRMATION);
+	Alert problemAlert = new Alert(AlertType.WARNING);
+	
 
+	Tooltip errortip;
 	int patientConfirm;
 	int quitClick;
-	int id;
+	int patientid;
 	
 	Patient patientHolder;
-	HashMap<Integer,Patient> pList = new HashMap<Integer,Patient>();
 	
-	@FXML 
-	public void Initialize2(){
+	
+	
+	//This check is for when I do not want letters or symbols. 
+	public boolean getLetterCount(String s) {	
+	     Pattern p = Pattern.compile("[^0-9]");
+	     Matcher m = p.matcher(s);
+	     boolean b = m.find();
+	     return b;
+	 }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 		
 		/*This button is for  confirming if the information gathered is correct or not. 
-		 * If it is correct then the data will be inserted into another window when you 
-		 * hit the confirm button again
+		 * If it is correct then the data will be inserted into another window.
 		 */
-		confirmOrError.setWrapText(true);
-
-		
-		quit2.setOnAction(e->{
-			patientConfirm = 0;
-			quitClick++;
-			confirmOrError.setFont(Font.font(null,FontWeight.BOLD, 18));
-			confirmOrError.setTextFill(Color.RED);
+		submitPatient.setOnAction(e->{
 			
-			confirmOrError.setText("All unsaved data will be lost! Click " + "\"Close\"" + " again to proceed.");
-			
-			if (quitClick == 2){
-
-				PatientFinderMain.stageClose();
+			if(iDFinder.getText().trim().equals("")){
+				errorImage.setVisible(true);
+				errortip.install(errorImage, new Tooltip("Please enter your patient ID"));
 			}
-		});
-		
-		clearFinder.setOnAction(e->{
-			fNameConfirmation.setText("First Name");
-			lNameConfirmation.setText("Last Name");
-			ssConfirmation.setText("999-99-9999");
-			addConfirmation.setText("Address");
-			confirmOrError.setTextFill(Color.BLACK);
-			confirmOrError.setText("");
-			patientConfirm = 0;
-			quitClick =0;
-			iDFinder.clear();
-			
-		});
-		
-		
-		
-		confirmButton.setOnAction(e->{
-			
-			confirmOrError.setTextFill(Color.BLACK);
-			quitClick = 0;
-			confirmOrError.setText("");
-			
-			try{
-				FileInputStream fileinput = new FileInputStream("patient.txt");
-				ObjectInputStream file2input= new ObjectInputStream(fileinput);
-				try{
-					pList.clear();
-						
-					pList = (HashMap) file2input.readObject();
-					
-				
-				}
-				catch(EOFException ex1){
-					
-				}
-
-				
-				file2input.close();
+			else if(getLetterCount(iDFinder.getText().trim())){
+				errorImage.setVisible(true);
+				errortip.install(errorImage, new Tooltip("Please enter your patient ID"));
 			}
-			catch(Exception ex){
-				System.out.println("File is here!!");
-			}
-		
-			/*This will check if the patient confirm is only one
-			 * this makes sure that you can see the information before 
-			 * the program retrieves the rest and displays
-			 */
-			
-			if(patientConfirm == 0){
-				fNameConfirmation.setText("First Name");
-				lNameConfirmation.setText("Last Name");
-				ssConfirmation.setText("999-99-9999");
-				addConfirmation.setText("Address");
+			else if(DatabaseWork.IDCheckPatient(iDFinder.getText().trim())){
+			//	System.out.println("Data retrieved!");
+				testAlert.setTitle("Patient Login Result");
+				testAlert.setHeaderText("Is this your information?");
+				patientHolder = (DatabaseWork.IDPatientConfirmation(iDFinder.getText().trim()));
+				testAlert.setContentText("First Name: " + patientHolder.getfName()  + "\nLast Name: " + patientHolder.getlName() + "\nSocial Security Number: " + patientHolder.getSsn());
 				
-				/*This try catch is for making sure the id is an integer
-				 * if the person enters something that is not an integer the program will
-				 * throw an NumberFormatException, which will check if the textfield has 
-				 * anything inside it or if the person left it empty ("") <- empty.
-				 * 
-				 */
-				try{
-				id = Integer.parseInt(iDFinder.getText().toString());
 				
-				if(pList.containsKey(id)){
-					
-					fNameConfirmation.setText(pList.get(id).getfName());
-					lNameConfirmation.setText(pList.get(id).getlName());
-					ssConfirmation.setText(pList.get(id).getSsn());
-					addConfirmation.setText(pList.get(id).getAddress());
-					confirmOrError.setText("Is this your information? (hit enter to confirm)");
-					patientConfirm++;
-				}
-				else{
-					confirmOrError.setText("Patient ID not found.");
-					patientConfirm =0;
-				}
+				result = testAlert.showAndWait();
+				
+				if(result.get() == ButtonType.OK){
 
-				
-				}
-				catch(NumberFormatException exe){
-					if (iDFinder.getText().toString().trim().equals("")){
-						confirmOrError.setText("Please enter the patient id number.");
-					}
-					else{
-						confirmOrError.setText("Please only enter patient id number.");
-					}
-					
-				}
-				
+						PatientFinderMain.setID(iDFinder.getText().trim());
+						PatientFinderMain.stageClose();
 			
-
-			}
-			
-			else if(patientConfirm ==1){
-				confirmOrError.setTextFill(Color.BLACK);
-				confirmOrError.setText("Please Go back to the HealthCare Clinic Main Screen (do not hit close button)");
-				PatientFinderMain.IdHolder(id);
-				PatientFinderMain.stageClose();
-				System.out.println("id: " + id);
-				
-				
-				
-				
+				}
+	
+				}
+			//IF the id number was not found in the database.
+			else{
+				problemAlert.setTitle("Patient Login Result");
+				problemAlert.setHeaderText("Warning!");
+				problemAlert.setContentText("ID NUMBER NOT FOUND");
+				problemAlert.showAndWait();
 			}
 			
 			
@@ -177,12 +121,6 @@ public class PatientController {
 	}
 
 	
-	public int getID(){
-		
-		System.out.println("getID method: "  );
-		return id;
-		
-	}
 }
 
 

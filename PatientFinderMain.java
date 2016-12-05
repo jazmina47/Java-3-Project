@@ -10,15 +10,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+/*
+ * DOES THE JOB. NO PROBLEMS
+ */
 public class PatientFinderMain{
 	
 	static AnchorPane anchor2;
 	static Stage primaryStage2;
-	static int patId;
+	static String patId;
 	
-	public static int startAgain() {
+	public static String startPatient() {
 		
+		patId="";
 		
 		primaryStage2 = new Stage();
 		FXMLLoader loadPatient = new FXMLLoader();
@@ -36,27 +39,20 @@ public class PatientFinderMain{
 		primaryStage2.setScene(sceneFinder);
 		primaryStage2.showAndWait();
 		
-		
-	
-	//	patId = control.getID();
 
-		System.out.println("PatId: " + patId);
-		primaryStage2.close();
+
 		return patId;
+		
 	
 	}
 	
 	public static void stageClose(){
 		primaryStage2.close();
 	}
-	
-	public static void IdHolder(int id){
-		patId = id;
-		System.out.println("PatId inside method: " + patId);
+
+	public static void setID(String trim) {
+		patId = trim;
 		
 	}
-//	public static void main(String[] args) {
-	//	launch(args);
-	//}
 
 }

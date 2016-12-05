@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.StaffDiagonsisWindowController">
+   <children>
+      <ScrollPane prefHeight="528.0" prefWidth="600.0">
+         <content>
+            <Pane prefHeight="516.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="181.0" layoutY="14.0" prefHeight="61.0" prefWidth="238.0" text="Diagnosis Window">
+                     <font>
+                        <Font name="Times New Roman Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="93.0" prefHeight="42.0" prefWidth="92.0" text="Patient ID# :">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="498.0" layoutY="93.0" prefHeight="42.0" prefWidth="92.0" text=" Diagnosis :">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="diagnosisView" layoutX="342.0" layoutY="93.0" prefHeight="137.0" prefWidth="144.0" />
+                  <Button fx:id="confirmButton" layoutX="466.0" layoutY="451.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="92.0" text="Confirm" />
+                  <ListView fx:id="patientView" layoutX="106.0" layoutY="93.0" prefHeight="137.0" prefWidth="144.0" />
+                  <Label fx:id="complaintLabel" alignment="TOP_LEFT" layoutX="105.0" layoutY="242.0" prefHeight="93.0" prefWidth="453.0" text="Complaint" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="230.0" prefHeight="42.0" prefWidth="92.0" text="Complaint:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" layoutX="498.0" layoutY="126.0" prefHeight="130.0" prefWidth="92.0" text="( You may Select Multiple choices) hold ctrl while selecting" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="347.0" prefHeight="42.0" prefWidth="92.0" text="Nurse Notes:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="noteLabel" alignment="TOP_LEFT" layoutX="105.0" layoutY="343.0" prefHeight="101.0" prefWidth="453.0" text="Nurse Notes" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

@@ -36,18 +36,17 @@
                         <Font name="Times New Roman Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="butto" layoutX="168.0" layoutY="684.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="149.0" text="Save Information">
+                  <Button fx:id="butto" layoutX="168.0" layoutY="684.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="149.0" text="Save Information">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="quit" layoutX="347.0" layoutY="689.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="40.0" prefWidth="74.0" text="Close">
+                  <Button fx:id="quit" layoutX="347.0" layoutY="689.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="74.0" text="Close">
                      <font>
                         <Font name="Times New Roman Bold" size="16.0" />
                      </font>
                   </Button>
                   <Label fx:id="lError" layoutX="260.0" layoutY="230.0" prefHeight="25.0" prefWidth="234.0" />
-                  <Label fx:id="saveResult" layoutX="402.0" layoutY="633.0" prefHeight="111.0" prefWidth="212.0" />
                   <Label fx:id="lNameLabel1" layoutX="11.0" layoutY="282.0" prefHeight="25.0" prefWidth="81.0" text="SSN#">
                      <font>
                         <Font name="Times New Roman Bold" size="16.0" />
@@ -119,27 +118,33 @@
                   <TextField fx:id="emeConText" layoutX="508.0" layoutY="378.0" />
                   <TextField fx:id="medicareText" layoutX="459.0" layoutY="547.0" />
                   <DatePicker fx:id="dob" layoutX="81.0" layoutY="559.0" />
-                  <RadioButton fx:id="genMale" layoutX="369.0" layoutY="180.0" mnemonicParsing="false" onAction="#Intialize" text="Male">
+                  <RadioButton fx:id="genMale" layoutX="369.0" layoutY="180.0" mnemonicParsing="false" text="Male">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Gender" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="genFemale" layoutX="446.0" layoutY="180.0" mnemonicParsing="false" text="Female" toggleGroup="$Gender">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="genFemale" layoutX="446.0" layoutY="180.0" mnemonicParsing="false" onAction="#Intialize" text="Female">
+                  <RadioButton fx:id="inAid" layoutX="293.0" layoutY="429.0" mnemonicParsing="false" text="Medicaid">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Insurance" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="inCare" layoutX="293.0" layoutY="459.0" mnemonicParsing="false" text="Medicare" toggleGroup="$Insurance">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="inAid" layoutX="293.0" layoutY="429.0" mnemonicParsing="false" onAction="#Intialize" text="Medicaid">
-                     <font>
-                        <Font name="Times New Roman Bold" size="15.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton fx:id="inCare" layoutX="293.0" layoutY="459.0" mnemonicParsing="false" onAction="#Intialize" text="Medicare">
-                     <font>
-                        <Font name="Times New Roman Bold" size="15.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton fx:id="inPriv" layoutX="295.0" layoutY="491.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="20.0" prefWidth="149.0" text="Private Insurance">
+                  <RadioButton fx:id="inPriv" layoutX="295.0" layoutY="491.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="149.0" text="Private Insurance" toggleGroup="$Insurance">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
@@ -148,13 +153,16 @@
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Immunization_status" />
+                     </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="needUpdate" layoutX="452.0" layoutY="245.0" mnemonicParsing="false" text="Expired">
+                  <RadioButton fx:id="needUpdate" layoutX="452.0" layoutY="245.0" mnemonicParsing="false" text="Expired" toggleGroup="$Immunization_status">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="otherGen" layoutX="533.0" layoutY="180.0" mnemonicParsing="false" text="Other">
+                  <RadioButton fx:id="otherGen" layoutX="533.0" layoutY="180.0" mnemonicParsing="false" text="Other" toggleGroup="$Gender">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
@@ -170,7 +178,7 @@
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="clear" layoutX="32.0" layoutY="684.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="50.0" prefWidth="99.0" text="Clear">
+                  <Button fx:id="clear" layoutX="32.0" layoutY="684.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="99.0" text="Clear">
                      <font>
                         <Font name="Times New Roman Bold" size="15.0" />
                      </font>
@@ -260,12 +268,6 @@
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lNameLabel31" layoutY="608.0" prefHeight="25.0" prefWidth="81.0" text="Password">
-                     <font>
-                        <Font name="Times New Roman Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="patientPassword" layoutX="94.0" layoutY="608.0" prefHeight="25.0" prefWidth="148.0" />
                   <ImageView fx:id="warningPassword" fitHeight="39.0" fitWidth="42.0" layoutX="254.0" layoutY="601.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />

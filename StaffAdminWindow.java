@@ -2,21 +2,25 @@ package healthcareLook;
 
 import java.io.IOException;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MainMenu extends Application{
+/*a window exclusive to the admin, where this will add or delete employees.
+ * 
+ */
+public class StaffAdminWindow {
 
-	AnchorPane anch;
-	static Stage mainStage;
 	
-	public void start(Stage MainStage) {
+	
+	AnchorPane anch;
+	static Stage admintage;
+	
+	public void startAdminWindow(Stage adminStage) {
 		
 		FXMLLoader loadMain = new FXMLLoader();
-		loadMain.setLocation(MainMenu.class.getResource("MainMenu.fxml"));
+		loadMain.setLocation(MainMenu.class.getResource("StaffAdmin.fxml"));
 		try{
 			anch = (AnchorPane) loadMain.load();
 		
@@ -26,19 +30,14 @@ public class MainMenu extends Application{
 			ex1.printStackTrace();
 			
 		}
-		mainStage = new Stage();
-		mainStage.setTitle("Welcome to Healhcare Clinic!");
+		admintage = new Stage();
+		admintage.setTitle("Welcome to Healhcare Clinic!");
 		Scene scene = new Scene(anch);
-		mainStage.setScene(scene);
-		mainStage.show();
+		admintage.setScene(scene);
+		admintage.show();
 		
 	}
 	public static void stageClose(){
-		mainStage.close();
-	}
-	
-
-	public static void main(String[] args) {
-		launch(args);
+		admintage.close();
 	}
 }

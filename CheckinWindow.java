@@ -7,19 +7,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ReceptionistLoginWindow {
+public class CheckinWindow {
 
-	
 	
 	
 
 	static AnchorPane anchLogin;
-	static Stage receptionistLoginStage;
+	static Stage checkinStage;
+	static String patID =" ";
 	
-	public static void startLoginScreen() {
-		
+	public static void startCheckinScreen(String id) {
+		patID = id;
 		FXMLLoader loadMain = new FXMLLoader();
-		loadMain.setLocation(MainMenu.class.getResource("ReceptionistLogin.fxml"));
+		loadMain.setLocation(MainMenu.class.getResource("Checkin.fxml"));
 		try{
 			anchLogin = (AnchorPane) loadMain.load();
 		
@@ -29,14 +29,17 @@ public class ReceptionistLoginWindow {
 			ex1.printStackTrace();
 			
 		}
-		receptionistLoginStage = new Stage();
-		receptionistLoginStage.setTitle("Welcome to Healhcare Clinic!");
+		checkinStage = new Stage();
+		checkinStage.setTitle("Welcome to Healhcare Clinic!");
 		Scene scene = new Scene(anchLogin);
-		receptionistLoginStage.setScene(scene);
-		receptionistLoginStage.show();
+		checkinStage.setScene(scene);
+		checkinStage.show();
 		
 	}
 	public static void stageClose(){
-		receptionistLoginStage.close();
+		checkinStage.close();
+	}
+	public static String getID(){
+		return patID;
 	}
 }

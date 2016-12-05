@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="850.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.StaffCreateController">
+   <children>
+      <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="800.0" stylesheets="@../../style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <Pane id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="580.0" prefWidth="850.0" stylesheets="@../../style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="176.0" layoutY="37.0" prefHeight="40.0" prefWidth="394.0" text="Welcome new Employee" textFill="#eb0c0c">
+                     <font>
+                        <Font name="Times New Roman Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="176.0" layoutY="96.0" prefHeight="58.0" prefWidth="320.0" text="Please enter the employee details below">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="staffFirstName" layoutX="95.0" layoutY="177.0" />
+                  <TextField fx:id="staffLastName" layoutX="397.0" layoutY="178.0" />
+                  <Label fx:id="fNameLabel" layoutX="14.0" layoutY="177.0" prefHeight="25.0" prefWidth="81.0" text="First Name">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel" layoutX="312.0" layoutY="178.0" prefHeight="25.0" prefWidth="81.0" text="Last Name">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="staffSave" layoutX="174.0" layoutY="497.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="149.0" text="Save Information">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="saveResult" layoutX="402.0" layoutY="633.0" prefHeight="111.0" prefWidth="212.0" />
+                  <Label fx:id="lNameLabel1" layoutX="11.0" layoutY="223.0" prefHeight="25.0" prefWidth="81.0" text="SSN#">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel2" layoutX="312.0" layoutY="236.0" prefHeight="25.0" prefWidth="81.0" text="Address">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel3" layoutX="312.0" layoutY="288.0" prefHeight="25.0" prefWidth="81.0" text="Zip">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel4" layoutX="11.0" layoutY="275.0" prefHeight="25.0" prefWidth="81.0" text="City">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel5" layoutX="14.0" layoutY="330.0" prefHeight="25.0" prefWidth="81.0" text="County">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel8" layoutX="303.0" layoutY="401.0" prefHeight="25.0" prefWidth="81.0" text="Gender:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel9" layoutX="303.0" layoutY="343.0" prefHeight="25.0" prefWidth="81.0" text="DOB">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lNameLabel10" layoutX="14.0" layoutY="381.0" prefHeight="25.0" prefWidth="81.0" text="Phone ">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="staffSsn" layoutX="95.0" layoutY="223.0" />
+                  <TextField fx:id="staffAddress" layoutX="397.0" layoutY="236.0" />
+                  <TextField fx:id="staffCity" layoutX="93.0" layoutY="275.0" />
+                  <TextField fx:id="staffCounty" layoutX="94.0" layoutY="330.0" />
+                  <TextField fx:id="staffZip" layoutX="397.0" layoutY="288.0" />
+                  <TextField fx:id="staffPhone" layoutX="93.0" layoutY="381.0" />
+                  <DatePicker fx:id="staffDob" layoutX="399.0" layoutY="343.0" prefHeight="25.0" prefWidth="145.0" />
+                  <RadioButton fx:id="staffMale" layoutX="402.0" layoutY="403.0" mnemonicParsing="false" text="Male">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="genderToggle" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="staffFemale" layoutX="471.0" layoutY="404.0" mnemonicParsing="false" text="Female" toggleGroup="$genderToggle">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="staffOther" layoutX="549.0" layoutY="404.0" mnemonicParsing="false" text="Other" toggleGroup="$genderToggle">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </RadioButton>
+                  <Button fx:id="staffClear" layoutX="43.0" layoutY="497.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="99.0" text="Clear">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <ImageView fx:id="officeWarning" fitHeight="39.0" fitWidth="42.0" layoutX="287.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="fWarning" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="lWarning" fitHeight="39.0" fitWidth="42.0" layoutX="561.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="cityWarning" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="countyWarning" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="zipWarning" fitHeight="39.0" fitWidth="42.0" layoutX="561.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="phoneWarning" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="dobWarning" fitHeight="39.0" fitWidth="42.0" layoutX="561.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="ssnWarning" fitHeight="39.0" fitWidth="42.0" layoutX="248.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="addressWarning" fitHeight="39.0" fitWidth="42.0" layoutX="561.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lNameLabel81" layoutX="11.0" layoutY="439.0" prefHeight="25.0" prefWidth="113.0" text="Off RM Num:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="genderWarning" fitHeight="39.0" fitWidth="42.0" layoutX="630.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="staffOfficeNumber" layoutX="131.0" layoutY="439.0" />
+                  <Label fx:id="lNameLabel811" layoutX="346.0" layoutY="439.0" prefHeight="25.0" prefWidth="113.0" text="Speciality:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="staffSpeciality" layoutX="433.0" layoutY="439.0" />
+                  <ImageView fx:id="specialityWarning" fitHeight="39.0" fitWidth="42.0" layoutX="598.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lNameLabel8111" layoutX="353.0" layoutY="485.0" prefHeight="25.0" prefWidth="113.0" text="Position:">
+                     <font>
+                        <Font name="Times New Roman Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="positionWarning" fitHeight="39.0" fitWidth="42.0" layoutX="646.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="http://wmackandemmablackmonfamily.com/wp-content/uploads/2015/08/attention_alert_warning_message-512.png" />
+                     </image>
+                  </ImageView>
+                  <ComboBox fx:id="staffPosition" layoutX="433.0" layoutY="485.0" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

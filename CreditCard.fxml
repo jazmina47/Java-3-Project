@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.CreditCardWindowController">
+   <children>
+      <ScrollPane prefHeight="500.0" prefWidth="360.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+      <Pane prefHeight="500.0" prefWidth="360.0">
+         <children>
+            <Label layoutX="14.0" layoutY="27.0" prefHeight="20.0" prefWidth="188.0" text="Credit/Debit Card type">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="94.0" prefHeight="20.0" prefWidth="209.0" text="Credit/Debit Card number">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="175.0" prefHeight="20.0" prefWidth="129.0" text="Expiration date">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="246.0" layoutY="175.0" prefHeight="20.0" prefWidth="85.0" text="CVV code ">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="250.0" prefHeight="20.0" prefWidth="112.0" text="Name on card">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="86.0" layoutY="210.0" prefHeight="20.0" prefWidth="26.0" text="/">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="year" layoutX="119.0" layoutY="207.0" prefHeight="25.0" prefWidth="77.0" promptText="YYYY" />
+            <ComboBox fx:id="month" layoutX="14.0" layoutY="207.0" prefHeight="25.0" prefWidth="66.0" promptText="MM" />
+            <TextField fx:id="cardNumber" layoutX="14.0" layoutY="124.0" prefHeight="25.0" prefWidth="321.0" />
+            <TextField fx:id="cvvcode" layoutX="242.0" layoutY="207.0" prefHeight="25.0" prefWidth="93.0" />
+            <TextField fx:id="cardName" layoutX="14.0" layoutY="279.0" prefHeight="25.0" prefWidth="321.0" />
+            <ComboBox fx:id="cardType" layoutX="14.0" layoutY="57.0" prefHeight="25.0" prefWidth="169.0" />
+            <Button fx:id="cardSubmit" layoutX="132.0" layoutY="425.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Submit">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+            <ImageView fx:id="creditError" fitHeight="102.0" fitWidth="129.0" layoutX="234.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="https://cdn3.iconfinder.com/data/icons/ose/Warning.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

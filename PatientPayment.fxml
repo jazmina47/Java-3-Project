@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="380.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.PatientPaymentWindowController">
+   <children>
+      <ScrollPane prefHeight="390.0" prefWidth="450.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="450.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="123.0" layoutY="14.0" prefHeight="64.0" prefWidth="205.0" text="Payment Window">
+                     <font>
+                        <Font name="Times New Roman Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="list" layoutX="136.0" layoutY="87.0" prefHeight="107.0" prefWidth="200.0" />
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="87.0" prefHeight="64.0" prefWidth="128.0" text="Appointment Time/Date" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="16.0" layoutY="201.0" prefHeight="64.0" prefWidth="124.0" text="Total Cost:" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="paymentTotal" alignment="TOP_LEFT" layoutX="158.0" layoutY="201.0" prefHeight="64.0" prefWidth="281.0" text="Payment Amount" wrapText="true">
+                     <font>
+                        <Font name="Times New Roman Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="submit" layoutX="206.0" layoutY="318.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="83.0" text="Submit" />
+                  <Button fx:id="quit" layoutX="311.0" layoutY="318.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="83.0" text="Finished " wrapText="true" />
+                  <RadioButton fx:id="cash" layoutX="38.0" layoutY="265.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="80.0" selected="true" text="Cash">
+                     <font>
+                        <Font name="Times New Roman Bold" size="17.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="toggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="credit" layoutX="123.0" layoutY="265.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="105.0" text="Credit" toggleGroup="$toggle">
+                     <font>
+                        <Font name="Times New Roman Bold" size="17.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

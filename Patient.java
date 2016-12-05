@@ -1,5 +1,5 @@
 package healthcareLook;
-/*NOT SURE WHAT TO ADD/DELETE...
+/*CREATE NEW CLASS FOR APPOINTMENTS/COMPLAINTS
  * 
  */
 import java.io.Serializable;
@@ -13,8 +13,6 @@ public class Patient extends Person implements Serializable{
 	
 	String emergencyContactNumber;
 	String insurance;
-	String appointmentDate;
-	String complaint;
 	
 	public Patient(){
 		
@@ -23,17 +21,15 @@ public class Patient extends Person implements Serializable{
 
 
 	public Patient(String fName, String lName, String ssn, String address, String city, String zipCode, String county,
-			String phone, String dateOfBirth, String gender, String id, String immunizationStatus,
-			String emergencyContact, String relationship, String emergencyContactNumber, String insurance,
-			String userName, String passWord,
-			String id) {
-		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender, userName, passWord, id);
+			String phone, String dateOfBirth, String gender, String immunizationStatus,
+			String emergencyContact, String relationship, String emergencyContactNumber, String insurance) {
+		super(fName, lName, ssn, address, city, zipCode, county, phone, dateOfBirth, gender);
 		this.immunizationStatus = immunizationStatus;
 		this.emergencyContact = emergencyContact;
 		this.relationship = relationship;
 		this.emergencyContactNumber = emergencyContactNumber;
 		this.insurance = insurance;
-		
+
 	}
 
 
@@ -92,27 +88,8 @@ public class Patient extends Person implements Serializable{
 		this.insurance = insurance;
 	}
 
-
-	public String getAppointmentDate() {
-		return appointmentDate;
-	}
-
-
-	public void setAppointmentDate(String appointmentDate) {
-		this.appointmentDate = appointmentDate;
-	}
-
-
-	public String getComplaint() {
-		return complaint;
-	}
-
-
-	public void setComplaint(String complaint) {
-		this.complaint = complaint;
-	}
 	
-
+/*
 	public String toString(){
 		return "\nPatient Information:\nFirst Name: " +fName+"\nLast Name: " + lName+ 
 				"\nSocial Security Number: "+ssn+"\nAddress: "+ address+"\nCity: " +city+
@@ -122,6 +99,33 @@ public class Patient extends Person implements Serializable{
 				"\nEmergency Contact Number: "+emergencyContactNumber+ "\nInsurance Details: "+insurance+ 
 				"\nAppointment Date: "+appointmentDate+ "\nPatient Complaints: " +complaint +"\n" + "ID #: " + id +"\n___________\n";
 	}
-	
+	*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

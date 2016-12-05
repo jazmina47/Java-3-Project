@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="550.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.NurseMenuWindowController">
+   <children>
+      <ScrollPane prefHeight="550.0" prefWidth="500.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
+      <Pane id="pane" prefHeight="550.0" prefWidth="500.0" stylesheets="@../../style.css">
+         <children>
+            <Button id="receptionist" fx:id="receptButton" alignment="TOP_RIGHT" layoutX="34.0" layoutY="143.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="116.0" stylesheets="@../../style.css" text="Receptionist Menu" textFill="#00191a" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button id="signout" fx:id="signout" alignment="TOP_RIGHT" layoutX="335.0" layoutY="299.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="116.0" stylesheets="@../../style.css" text="Close Window" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Button id="cancel" fx:id="noShow" alignment="TOP_RIGHT" layoutX="335.0" layoutY="143.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="116.0" stylesheets="@../../style.css" text="No Show Appointment" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Button id="notes" fx:id="notes" alignment="TOP_RIGHT" layoutX="186.0" layoutY="143.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="116.0" stylesheets="@../../style.css" text="Notes ">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Label alignment="CENTER" layoutX="104.0" layoutY="32.0" prefHeight="64.0" prefWidth="293.0" text="Welcome Nurse! What action are you doing?" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

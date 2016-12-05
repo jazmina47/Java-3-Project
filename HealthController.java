@@ -746,4 +746,3 @@ public class HealthController implements Initializable{
 	}
 
 }
-

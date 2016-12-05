@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -20,15 +21,13 @@
                   <Font name="Times New Roman Bold" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="6.0" layoutY="175.0" text="Password:">
-               <font>
-                  <Font name="Times New Roman Bold" size="13.0" />
-               </font>
-            </Label>
             <TextField fx:id="staffId" layoutX="65.0" layoutY="110.0" />
-            <TextField fx:id="staffPassword" layoutX="65.0" layoutY="171.0" />
-            <Button fx:id="buttonSubmit" layoutX="285.0" layoutY="236.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="43.0" prefWidth="86.0" text="Submit" />
-            <Button fx:id="buttonCreateNewStaff" layoutX="158.0" layoutY="235.0" mnemonicParsing="false" onAction="#Intialize" prefHeight="43.0" prefWidth="116.0" text="Create New Staff" />
+            <Button fx:id="buttonSubmit" layoutX="285.0" layoutY="236.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="86.0" text="Submit" />
+            <ImageView fx:id="errorImage" fitHeight="66.0" fitWidth="68.0" layoutX="225.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="https://cdn3.iconfinder.com/data/icons/ose/Warning.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

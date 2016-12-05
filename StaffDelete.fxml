@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="300.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.ReceptionistLoginWindowController">
+<AnchorPane prefHeight="300.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthcareLook.StaffDeleteWindowController">
    <children>
       <ScrollPane prefHeight="300.0" prefWidth="424.0">
         <content>
@@ -16,18 +16,18 @@
       </ScrollPane>
       <Pane prefHeight="300.0" prefWidth="424.0">
          <children>
-            <Label layoutX="133.0" layoutY="25.0" prefHeight="68.0" prefWidth="208.0" text="Receptionist Login">
+            <Label layoutX="108.0" layoutY="23.0" prefHeight="68.0" prefWidth="208.0" text="Remove Employee">
                <font>
                   <Font name="Times New Roman Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="111.0" prefHeight="53.0" prefWidth="128.0" text="ID Number:">
+            <Label layoutX="14.0" layoutY="111.0" prefHeight="53.0" prefWidth="183.0" text="Employee ID Number:">
                <font>
                   <Font name="Times New Roman Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="staffId" layoutX="142.0" layoutY="125.0" prefHeight="25.0" prefWidth="187.0" />
-            <Button fx:id="buttonSubmit" layoutX="250.0" layoutY="222.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="110.0" text="Log In" />
+            <TextField fx:id="staffId" layoutX="206.0" layoutY="125.0" prefHeight="25.0" prefWidth="146.0" />
+            <Button fx:id="submit" layoutX="242.0" layoutY="219.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="110.0" text="Submit" />
             <ImageView fx:id="errorImage" fitHeight="53.0" fitWidth="52.0" layoutX="360.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="https://cdn3.iconfinder.com/data/icons/ose/Warning.png" />

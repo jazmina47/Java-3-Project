@@ -7,18 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class HealthStaffCreate {
+public class PatientPaymentWindow {
 
 	
 	static AnchorPane anchCreate;
-	static Stage createStaffStage;
-	static String adminId;
+	static Stage createPaymentStage;
+	static String patID;
 	
-	public static void startCreateWindow(String id) {
-		adminId = id;
+	public static void startCreatePaymentWindow(String id) {
 		
+		patID = id;
 		FXMLLoader loadMain = new FXMLLoader();
-		loadMain.setLocation(MainMenu.class.getResource("StaffCreate.fxml"));
+		loadMain.setLocation(MainMenu.class.getResource("PatientPayment.fxml"));
 		try{
 			anchCreate = (AnchorPane) loadMain.load();
 		
@@ -28,19 +28,18 @@ public class HealthStaffCreate {
 			ex1.printStackTrace();
 			
 		}
-		createStaffStage = new Stage();
-		createStaffStage.setTitle("Welcome to Healhcare Clinic!");
+		createPaymentStage = new Stage();
+		createPaymentStage.setTitle("Welcome to Healhcare Clinic!");
 		Scene scene = new Scene(anchCreate);
-		createStaffStage.setScene(scene);
-		createStaffStage.show();
+		createPaymentStage.setScene(scene);
+		createPaymentStage.show();
 		
 	}
 	public static void stageClose(){
-		createStaffStage.close();
+		createPaymentStage.close();
 	}
 	
-	public static String GetAdminId(String id){
-		return adminId;
+	public static String getID(){
+		return patID;
 	}
-	
 }

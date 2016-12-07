@@ -699,7 +699,7 @@ public static Boolean SaveStaff(Employee pat){
 			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
 			sqlState = conn.createStatement();
 			
-			String command = "Select first_name, last_name, staff_id from employee";
+			String command = "Select first_name, last_name, staff_id from employee where staff_position = 'Doctor'";
 			
 			rows = sqlState.executeQuery(command);
 			while(rows.next()){

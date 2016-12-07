@@ -33,6 +33,12 @@
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: bottom left;
 }
+#records{
+	-fx-background-image: url("http://iconshow.me/media/images/ui/ios7-icons/png/512/clipboard.png");
+	-fx-background-size: 70,80;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: bottom left;
+}
 #payBill{
 	-fx-background-image: url("https://s3-us-west-2.amazonaws.com/patient-plus/icons/payment_support_icon.png");
 	-fx-background-size: 80,80;

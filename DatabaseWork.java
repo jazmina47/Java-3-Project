@@ -688,38 +688,200 @@ public static Boolean SaveStaff(Employee pat){
 	}
 	
 	
+
+	public static ArrayList<String> getDoctors() {
+		
+		ArrayList<String> doc = new ArrayList<String>();
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select first_name, last_name, staff_id from employee";
+			
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				doc.add(rows.getString(3) + " "+ rows.getString(1) + " " +rows.getString(2));
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+
+		return doc;
+	}
+
+
+	public static ArrayList<String> getPatients(String staffId) {
+		
+		ArrayList<String> pat = new ArrayList<String>();
+		ArrayList<String> id = new ArrayList<String>();
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			sqlState2 = conn.createStatement();
+			
+			String command = "Select distinct patient_id from appointment where staff_id = '" + staffId + "'";
+			
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				id.add(rows.getString(1));
+			}
+			for(int i =0; i< id.size();i++){
+				command = "Select first_name, last_name, patient_id from patient where patient_id = '"+ id.get(i) +"'";
+				rows = sqlState.executeQuery(command);
+				while(rows.next()){
+					pat.add(rows.getString(3) + " "+rows.getString(1) + " "+rows.getString(2) + " ");
+				}
+			}
+			
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+
+		return pat;
+	}
+
+
+	public static String getPatientCount(String staffId) {
+		
+		String count = "";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select count(staff_id) from appointment where staff_id = '"+staffId+"'";
+			
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				count = rows.getString(1);
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+
+		return count;
+	}
+
+
+	public static String getVisitCount(String patId) {
+		
+		
+		String count = "";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			
+			String command = "Select count(patient_id) from appointment where patient_id = '"+patId+"'";
+			
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				count = rows.getString(1);
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		
+
+		return count;
+	}
+
+
+	public static void TextFileSave(String staffId, String patId) {
+		
+		String data = "";
+		String date = "";
+		String time = "";
+		String complaint ="";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
+			sqlState2 = conn.createStatement();
+			
+			String command = "Select * from appointment where patient_id = '"+patId+"' AND staff_id = '"+staffId+"'";
+			
+			rows = sqlState.executeQuery(command);
+			while(rows.next()){
+				date = rows.getString(1);
+				time = rows.getString(2);
+				complaint = rows.getString(3);
+				
+				command = "Select diagnosis from payment_bill where appointment_date = '"+date+"' AND appointment_time = '"+time+"' AND patient_id = '"+patId+"'";
+				rows2 = sqlState2.executeQuery(command);
+				while(rows2.next()){
+					data += "Patient ID#: "+ patId+ " Staff ID#: "+ staffId+" Date: "+ date +" Time: "+ time+ " Complaint: " + complaint + " Diagnosis: "+ rows2.getString(1) + "\r\n";
+				}
+			}
+			
+			try{
+				PrintWriter writer = new PrintWriter("DoctorFile.txt", "UTF-8");
+				writer.print(data);
+				writer.close();
+			}catch(IOException e){
+				System.out.println("Error!");
+			}
+
+		
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+
+		
+	}
+
+
 	
 	
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

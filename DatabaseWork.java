@@ -1,10 +1,14 @@
 package healthcareLook;
 
+
 /*This class was made to do all the work for the database.
  * This means retrieving and storing data.
  * Add way to verify if person is admin
  * Delete Staff from admin window (would this mess with the other tables?)
  */
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -826,7 +830,6 @@ public static Boolean SaveStaff(Employee pat){
 		return count;
 	}
 
-
 	public static void TextFileSave(String staffId, String patId) {
 		
 		String data = "";
@@ -875,13 +878,7 @@ public static Boolean SaveStaff(Employee pat){
 		}
 
 		
-	}
-
-
-	
-	
-	
-	
+	}	
 }
 
 

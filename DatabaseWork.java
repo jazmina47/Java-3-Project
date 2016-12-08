@@ -3,8 +3,6 @@ package healthcareLook;
 
 /*This class was made to do all the work for the database.
  * This means retrieving and storing data.
- * Add way to verify if person is admin
- * Delete Staff from admin window (would this mess with the other tables?)
  */
 
 import java.io.IOException;
@@ -242,7 +240,7 @@ public class DatabaseWork {
 		return idNumber;
 	}
 	
-public static Boolean SaveStaff(Employee pat){
+	public static Boolean SaveStaff(Employee pat){
 		
 		
 		try{
@@ -885,41 +883,37 @@ public static Boolean SaveStaff(Employee pat){
 		
 	}
 
-	/*Added method for PersonExists to find a lost/forgotten patientID*/
-	public static boolean PersonExists(String firstName, String lastName, String SSN) {
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
+	//Added method for PersonExists to find a lost or forgotten id number
+	public static boolean PersonExists(String fName, String lName, String ssn) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
 
-		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
-		sqlState = conn.createStatement();
-		
-		String command = "Select patient_id from patient where first_name = '" + firstName + "'" 
-		+ " AND last_name = '" + lastName + "'" + " AND ssn = '" + SSN + "'";
-		
-		rows = sqlState.executeQuery(command);
-		//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
-		if(rows.next()){
-			return true;
-			
-	}
+			conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+			sqlState = conn.createStatement();
 
-	
-	}
-	catch(SQLException ex){
-		System.out.println("SQLException : " +ex.getMessage());
-		System.out.println("VendorError : " +ex.getErrorCode());
-	}
-	catch(ClassNotFoundException e){
-		e.printStackTrace();
-	}
+			String command = "Select patient_id from patient where first_name = '" + fName + "'" 
+			+ " AND last_name = '" + lName + "'" + " AND ssn = '" + ssn + "'";
+
+			rows = sqlState.executeQuery(command);
+			//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+			if(rows.next()){
+				return true;
+
+			}
+
+
+		}
+		catch(SQLException ex){
+			System.out.println("SQLException : " +ex.getMessage());
+			System.out.println("VendorError : " +ex.getErrorCode());
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
 	
 	
 	return false;
-	
-	
-	
-	
-	
+
 	}	
 }
 

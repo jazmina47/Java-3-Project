@@ -193,6 +193,8 @@ public class DatabaseWork {
 			prepareState.setString(14, pat.getEmergencyContactNumber());
 			prepareState.setString(15, pat.getInsurance());
 			prepareState.setNull(16, java.sql.Types.INTEGER);
+			
+			@SuppressWarnings("unused")
 			int add = prepareState.executeUpdate();
 
 			return true;
@@ -266,6 +268,7 @@ public static Boolean SaveStaff(Employee pat){
 			prepareState.setNull(14, java.sql.Types.INTEGER);
 			
 			
+			@SuppressWarnings("unused")
 			int add = prepareState.executeUpdate();
 
 			
@@ -375,6 +378,7 @@ public static Boolean SaveStaff(Employee pat){
 				
 			}
 
+			@SuppressWarnings("unused")
 			int add = prepareState.executeUpdate();
 
 		
@@ -439,6 +443,7 @@ public static Boolean SaveStaff(Employee pat){
 			
 			String command = "update appointment set staff_id = '" + id + "' where patient_id = '" + id2 +"' AND appointment_date = '" + date +"' AND appointment_time = '" + time +"'";
 			
+			@SuppressWarnings("unused")
 			int update = sqlState.executeUpdate(command);
 
 		
@@ -878,7 +883,43 @@ public static Boolean SaveStaff(Employee pat){
 		}
 
 		
+	}
+
+	/*Added method for PersonExists to find a lost/forgotten patientID*/
+	public static boolean PersonExists(String firstName, String lastName, String SSN) {
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+
+		conn= DriverManager.getConnection("jdbc:mysql://localhost/healthcare_clinic?autoReconnect=true&useSSL=false","root", "CSC3610" );
+		sqlState = conn.createStatement();
+		
+		String command = "Select patient_id from patient where first_name = '" + firstName + "'" 
+		+ " AND last_name = '" + lastName + "'" + " AND ssn = '" + SSN + "'";
+		
+		rows = sqlState.executeQuery(command);
+		//If data was found there will be a row to move the cursor to. Otherwise it will not return a true.
+		if(rows.next()){
+			return true;
+			
+	}
+
+	
+	}
+	catch(SQLException ex){
+		System.out.println("SQLException : " +ex.getMessage());
+		System.out.println("VendorError : " +ex.getErrorCode());
+	}
+	catch(ClassNotFoundException e){
+		e.printStackTrace();
+	}
+	
+	
+	return false;
+	
+	
+	
+	
+	
 	}	
 }
-
 
